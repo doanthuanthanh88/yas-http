@@ -1,0 +1,5 @@
+- yas-http/Doc/MD:
+    title: Post service
+    description: Demo CRUD API to generate to markdown document
+    signature: "[Doan Thuan Thanh](mailto:doanthuanthanh88@gmail.com)"
+    outFile: ./ApiMD.md
