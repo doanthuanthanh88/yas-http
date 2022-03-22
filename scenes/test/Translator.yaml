@@ -1,0 +1,10 @@
+# Command: yas scenes/test/Translator.yaml 
+
+title: Test "Translator" extension
+steps:
+  - yaml-scene-extension/Translator:
+      text: hello
+      lang: vi
+      var: translatedText
+      
+  - Echo/Green: Result is "${translatedText}"

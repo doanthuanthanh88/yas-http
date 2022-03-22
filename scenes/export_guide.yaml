@@ -1,0 +1,9 @@
+- Doc/Guide/MD: 
+    logLevel: debug
+    includes: 
+      - ../src
+    excludes: []
+    includePattern: ".+\\.ts$"
+    outFile: ../GUIDE.md
+
+- Echo/Green: Guidline document generated successfully
