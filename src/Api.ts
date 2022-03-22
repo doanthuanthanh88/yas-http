@@ -14,6 +14,7 @@ import { ElementProxy } from "yaml-scene/src/elements/ElementProxy"
 import { IElement } from "yaml-scene/src/elements/IElement"
 import Validate from "yaml-scene/src/elements/Validate"
 import { Method } from "./Method"
+import { CurlGenerator } from 'curl-generator'
 // process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 // axios.interceptors.request.use(function (config) {
@@ -91,7 +92,6 @@ export default class Api implements IElement {
   }
 
   get curl() {
-    const { CurlGenerator } = require('curl-generator')
     return CurlGenerator({
       method: this.method as any,
       headers: Object.keys(this.headers || {}).reduce((sum, e) => {

@@ -235,7 +235,7 @@ Mock API server
                                                 # - PUT    /posts/:id        : Replace entity of post to new post
                                                 # - PATCH  /posts/:id        : Only update some properties of post
                                                 # - DELETE /posts/:id        : Delete a post by id
-        init: [                                 # Init data
+        initData: [                             # Init data
           {
             "id": 1,
             "label": "label 01"

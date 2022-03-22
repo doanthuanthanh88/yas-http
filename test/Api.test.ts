@@ -179,7 +179,7 @@ steps:
     expect(scenario.variableManager.vars.details.title).toBe('title updated')
   })
   test('Delete a post', async () => {
-    expect(scenario.variableManager.vars.status).toBe(200)
+    expect(scenario.variableManager.vars.status).toBe(204)
   })
 
   test('Upload file', async () => {

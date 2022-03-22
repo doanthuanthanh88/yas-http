@@ -22,7 +22,7 @@ steps:
             routers: 
               - path: /posts
                 CRUD: true
-                init:
+                initData:
                   - id: 1
                     title: title
                     labels: 

@@ -12,7 +12,7 @@ import { ElementFactory } from 'yaml-scene/src/elements/ElementFactory';
 import { ElementProxy } from 'yaml-scene/src/elements/ElementProxy';
 import { IElement } from 'yaml-scene/src/elements/IElement';
 import { TimeUtils } from 'yaml-scene/src/utils/time';
-import { CRUDModel } from './CRUDModel';
+import { CRUD } from './CRUD';
 
 /**
  * @guide
@@ -53,7 +53,7 @@ import { CRUDModel } from './CRUDModel';
                                                 # - PUT    /posts/:id        : Replace entity of post to new post
                                                 # - PATCH  /posts/:id        : Only update some properties of post
                                                 # - DELETE /posts/:id        : Delete a post by id
-        init: [                                 # Init data
+        initData: [                             # Init data
           {
             "id": 1,
             "label": "label 01"
@@ -160,7 +160,7 @@ zsqKxI1xw5qstqlVX3MQR6n8xTfr2Ec6W3lGbtuQ0MEHYbT8
   } | boolean;
   routers: ({
     CRUD: boolean
-    init?: any[]
+    initData?: any[]
     path: string
   } | {
     /** Server static files in these folders */
@@ -188,7 +188,7 @@ zsqKxI1xw5qstqlVX3MQR6n8xTfr2Ec6W3lGbtuQ0MEHYbT8
     /** Customize request and response */
     method: string;
     path: string;
-    handler?: string
+    handler?: string | Function
   })[]
 
   #app?: Koa;
@@ -237,105 +237,51 @@ zsqKxI1xw5qstqlVX3MQR6n8xTfr2Ec6W3lGbtuQ0MEHYbT8
           return next();
         });
       } else if (r.CRUD) {
-        const crud = new CRUDModel()
-        if (r.init) {
-          (Array.isArray(r.init) ? r.init : [r.init]).forEach(item => crud.create(item))
-        }
-        this.routers.splice(this.routers.findIndex(e => e === r), 1, {
-          method: 'GET',
-          path: `${r.path}`,
-          response: {
-            status: 200,
-            statusText: 'FIND',
-            data: crud
-          }
-        }, {
-          method: 'GET',
-          path: `${r.path}/:id`,
-          response: {
-            status: 200,
-            statusText: 'DETAILS',
-            data: crud
-          }
-        }, {
-          method: 'POST',
-          path: `${r.path}`,
-          response: {
-            status: 200,
-            statusText: 'CREATE',
-            data: crud
-          }
-        }, {
-          method: 'PUT',
-          path: `${r.path}/:id`,
-          response: {
-            status: 200,
-            statusText: 'UPDATE',
-            data: crud
-          }
-        }, {
-          method: 'PATCH',
-          path: `${r.path}/:id`,
-          response: {
-            status: 200,
-            statusText: 'PATCH',
-            data: crud
-          }
-        }, {
-          method: 'DELETE',
-          path: `${r.path}/:id`,
-          response: {
-            status: 204,
-            statusText: 'REMOVE',
-            data: crud
-          }
-        })
+        const crud = new CRUD(r.path)
+        if (r.initData) crud.init(...(Array.isArray(r.initData) ? r.initData : [r.initData]))
+        this.routers.splice(this.routers.findIndex(e => e === r), 1, ...crud.routers)
         i--
       } else {
         r.method = !r.method ? 'GET' : r.method.toUpperCase()
         if (r.path) {
-          this.proxy.logger.info(chalk.gray(`- ${r.method} ${r.path}`));
-          this.#router[r.method.toLowerCase()](r.path, bodyParser({
-            multipart: true,
-            urlencoded: true,
-          }), async (ctx, next) => {
-            if (r.handler) {
-              const rs = await this.proxy.eval(r.handler, { params: ctx.params, headers: ctx.headers, query: ctx.request.query, body: ctx.request.body, request: ctx.request, ctx: ctx });
-              if (ctx.body === undefined) ctx.body = rs === undefined ? null : rs
-            } else {
+          let handler: any
+          if (!r.handler) {
+            // Fix response data
+            handler = async (ctx, next) => {
               if (r.response?.status)
                 ctx.status = r.response?.status;
               if (r.response?.statusText)
                 ctx.message = r.response?.statusText;
-              if (r.response?.data instanceof CRUDModel) {
-                const data: CRUDModel = r.response.data
-                switch (ctx.message) {
-                  case 'FIND':
-                    ctx.body = data.find(ctx.request.query)
-                    break
-                  case 'DETAILS':
-                    ctx.body = data.get('id', ctx.params.id)
-                    break
-                  case 'CREATE':
-                    ctx.body = data.create(ctx.request.body)
-                    break
-                  case 'PATCH':
-                    ctx.body = data.patch('id', ctx.params.id, ctx.request.body)
-                    break
-                  case 'UPDATE':
-                    ctx.body = data.update('id', ctx.params.id, ctx.request.body)
-                    break
-                  case 'REMOVE':
-                    ctx.body = data.remove('id', ctx.params.id)
-                    break
-                }
-              } else if (r.response?.data) {
+              if (r.response?.data) {
                 ctx.body = cloneDeep(r.response.data);
                 ctx.body = this.proxy.getVar(ctx.body, { $params: ctx.params, $headers: ctx.headers, $query: ctx.request.query, $body: ctx.request.body, $request: ctx.request, $ctx: ctx });
               }
+              if (ctx.body === undefined) ctx.body = null
+              return next()
             }
-            return next();
-          });
+          } else if (r.handler) {
+            // Manual handler response data
+            if (typeof r.handler !== 'function') {
+              handler = async (ctx, next) => {
+                const rs = await this.proxy.eval(r.handler, { params: ctx.params, headers: ctx.headers, query: ctx.request.query, body: ctx.request.body, request: ctx.request, ctx: ctx });
+                if (ctx.body === undefined) ctx.body = rs
+                if (ctx.body === undefined) ctx.body = null
+                return next()
+              }
+            } else {
+              handler = async (ctx, next) => {
+                const rs = await r.handler({ params: ctx.params, headers: ctx.headers, query: ctx.request.query, body: ctx.request.body, request: ctx.request, ctx: ctx })
+                if (ctx.body === undefined) ctx.body = rs
+                if (ctx.body === undefined) ctx.body = null
+                return next()
+              }
+            }
+          }
+          this.proxy.logger.info(chalk.gray(`- ${r.method} ${r.path}`));
+          this.#router[r.method.toLowerCase()](r.path, bodyParser({
+            multipart: true,
+            urlencoded: true,
+          }), handler);
         }
       }
     }

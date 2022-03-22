@@ -858,13 +858,6 @@ asynckit@^0.4.0:
   resolved "https://registry.yarnpkg.com/asynckit/-/asynckit-0.4.0.tgz#c79ed97f7f34cb8f2ba1bc9790bcc366474b4b79"
   integrity sha1-x57Zf380y48robyXkLzDZkdLS3k=
 
-axios@^0.24.0:
-  version "0.24.0"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-0.24.0.tgz#804e6fa1e4b9c5288501dd9dff56a7a0940d20d6"
-  integrity sha512-Q6cWsys88HoPgAaFAVUb0WpPk0O8iTeisR9IMqy9G8AbO4NlpVknrnQS03zzF9PGAWgO3cgletO3VjV/P7VztA==
-  dependencies:
-    follow-redirects "^1.14.4"
-
 axios@^0.26.1:
   version "0.26.1"
   resolved "https://registry.yarnpkg.com/axios/-/axios-0.26.1.tgz#1ede41c51fcf51bbbd6fd43669caaa4f0495aaa9"
@@ -1224,10 +1217,10 @@ csv-stringify@^5.6.5:
   resolved "https://registry.yarnpkg.com/csv-stringify/-/csv-stringify-5.6.5.tgz#c6d74badda4b49a79bf4e72f91cce1e33b94de00"
   integrity sha512-PjiQ659aQ+fUTQqSrd1XEDnOr52jh30RBurfzkscaE2tPaFsDH5wOAHJiw8XAHphRknCwMUE9KRayc4K/NbO8A==
 
-curl-generator@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/curl-generator/-/curl-generator-0.1.0.tgz#fb76080a22b77e977504a1005825ac07703cc68e"
-  integrity sha512-sW6kvrXai5KwJcvVZCGD17KD3139y1wIpDyM2cLqtbBxkGKa34sGEBAS22h3KrjJq548zagsEXVFYHuIOd7H3A==
+curl-generator@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/curl-generator/-/curl-generator-0.2.0.tgz#de82f405469ba48f5e7022c93baccabed24be3bf"
+  integrity sha512-KKTRYPMX3LnX45phiklGA+rv2W5mG0KD8sirV0yjtM7aliGMp5PIwqC5n74AFlwIHGMVsD9NKlyKpcYFA8bPog==
   dependencies:
     ms "^2.0.0"
 
@@ -1474,7 +1467,7 @@ find-up@^4.0.0, find-up@^4.1.0:
     locate-path "^5.0.0"
     path-exists "^4.0.0"
 
-follow-redirects@^1.14.4, follow-redirects@^1.14.8:
+follow-redirects@^1.14.8:
   version "1.14.9"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.9.tgz#dd4ea157de7bfaf9ea9b3fbd85aa16951f78d8d7"
   integrity sha512-MQDfihBQYMcyy5dhRDJUHcw7lb2Pv/TuE6xP1vyraLukNDHKbDxDNaOE3NbCAdKQApno+GPRyo1YAp89yCjK4w==
@@ -3300,26 +3293,18 @@ yallist@^4.0.0:
   resolved "https://registry.yarnpkg.com/yallist/-/yallist-4.0.0.tgz#9bb92790d9c0effec63be73519e11a35019a3a72"
   integrity sha512-3wdGidZyq5PB084XLES5TpOSRA3wjXAlIWMhum2kRcv/41Sn2emQ0dycQW4uZXLejwKvg6EsvbdlVL+FYEct7A==
 
-yaml-scene@^1.0.0:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/yaml-scene/-/yaml-scene-1.0.2.tgz#d64017bfcbfc0778cd44334b405d1704e1560e4a"
-  integrity sha512-MvfKoH0Mi10lH8LVJ8vHx9cfrFUkkuK2yUSiRPdB1LsXCFDRiBCiU7P4hrqXj3xZvzmId8AvKEMfdmHG4fUNHw==
+yaml-scene@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/yaml-scene/-/yaml-scene-1.0.3.tgz#be1b5500577d6a59de1e0e175bb62a00cf7033e4"
+  integrity sha512-mU/MQ2vFc0EJH5tfBKD7Oc6jvE6q0P4M0rvqIhAKwKN/r9/oAwpBvy7RsrpaCqejCQ82fPhtLIm8O2582PiZNg==
   dependencies:
-    "@koa/cors" "^3.2.0"
-    "@koa/router" "^10.1.1"
-    axios "^0.24.0"
     chai "^4.3.3"
     chalk "^2.4.2"
     cli-progress "^3.9.1"
     commander "8.0.0"
     csv-parse "^4.16.3"
     csv-stringify "^5.6.5"
-    curl-generator "^0.1.0"
-    form-data "^4.0.0"
     js-yaml "^3.12.2"
-    koa "^2.13.4"
-    koa-body "^4.2.0"
-    koa-static "^5.0.0"
     lodash.clonedeep "^4.5.0"
     lodash.merge "^4.6.2"
     lodash.omit "^4.5.0"
