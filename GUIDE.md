@@ -253,28 +253,29 @@ Mock API server
             server: nginx
           data: [                               # - Response data. 
             {                                   #   - Use some variables to replace value to response
-              "id": ${+$params.id},             # $params:  Request params (/:id)
-              "title": "title 1",               # $headers: Request headers
-              "author": "thanh"                 # $query:   Request querystring (?name=thanh)
-              "des": "des 1",                   # $body:    Request body
-            }                                   # $request: Request
-          ]                                     # $ctx:     Context
+              "id": ${+params.id},              # params:  Request params (/:id)
+              "title": "title 1",               # headers: Request headers
+              "author": "thanh"                 # query:   Request querystring (?name=thanh)
+              "des": "des 1",                   # body:    Request body
+            }                                   # request: Request
+          ]                                     # ctx:     Context
       # Create a API which you handle request and response
       - method: GET                             # Request method (POST, PUT, PATCH, DELETE, HEAD)
                                                 # - Default method is GET
         path: /posts/:id                        # Request path
         handler: |                              # Handle code which handle request and response data
           // _: this.proxy, 
-          // __: this, $params: 
-          // ctx.params, headers: ctx.headers, 
-          // query: ctx.request.query, 
-          // body: ctx.request.body, 
-          // request: ctx.request, 
-          // ctx: ctx
+          // __: this, 
+          // params: Request params
+          // headers: Request headers
+          // query: Request query string
+          // body: Request body
+          // request: Request
+          // ctx: Context (koajs)
 
           const merge = require('lodash.merge')
           return merge({
-            name: $query.name
+            name: query.name
           }, {
             id: 1
           })

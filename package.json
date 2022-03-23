@@ -24,6 +24,7 @@
     "newtag": "npx yaml-scene ./scenes/version.yaml",
     "postnewtag": "yarn clean"
   },
+  "preferGlobal": true,
   "dependencies": {
     "@koa/cors": "^3.2.0",
     "@koa/router": "^10.1.1",

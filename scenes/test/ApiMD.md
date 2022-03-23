@@ -1,7 +1,7 @@
 # Post service
 Demo CRUD API to generate to markdown document
 > Developed by [Doan Thuan Thanh](mailto:doanthuanthanh88@gmail.com)  
-> Updated at 3/22/2022, 7:28:25 AM  
+> Updated at 3/23/2022, 2:01:19 PM  
 
 | | Title (6) | URL |  
 |---|---|---|  
@@ -29,7 +29,7 @@ Demo CRUD API to generate to markdown document
 
 
 - `POST /posts`
-- ✅  &nbsp; **200**  *CREATE*
+- ✅  &nbsp; **200**  *OK*
 
 
 
@@ -112,7 +112,7 @@ curl "/posts" -X POST -H "content-type: application/json" -d "{\"id\":2,\"title\
 
 
 - `DELETE /posts/:id`
-- ✅  &nbsp; **204**  *REMOVE*
+- ✅  &nbsp; **204**  *No Content*
 
 
 
@@ -182,7 +182,7 @@ curl "/posts/2" -X DELETE -H "content-type: application/json"
 
 
 - `GET /posts/:id`
-- ✅  &nbsp; **200**  *DETAILS*
+- ✅  &nbsp; **200**  *OK*
 
 
 
@@ -259,7 +259,7 @@ curl "/posts/2" -X GET -H "content-type: application/json"
 
 
 - `GET /posts`
-- ✅  &nbsp; **200**  *FIND*
+- ✅  &nbsp; **200**  *OK*
 
 
 
@@ -295,7 +295,7 @@ curl "/posts" -X GET -H "content-type: application/json"
     ],
     "creator": {
       "name": "thanh",
-      "created_time": 1647934094332
+      "created_time": 1648044069922
     },
     "tags": [
       {
@@ -339,7 +339,7 @@ curl "/posts" -X GET -H "content-type: application/json"
 
 
 - `GET /posts/:id`
-- ✅  &nbsp; **200**  *DETAILS*
+- ✅  &nbsp; **200**  *OK*
 
 
 
@@ -416,7 +416,7 @@ curl "/posts/2" -X GET -H "content-type: application/json"
 
 
 - `PUT /posts/:id`
-- ✅  &nbsp; **200**  *UPDATE*
+- ✅  &nbsp; **200**  *OK*
 
 
 
