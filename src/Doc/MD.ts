@@ -1,6 +1,6 @@
 import Api from "@app/Api"
 import { File } from "yaml-scene/src/elements/File/adapter/File"
-import { TimeUtils } from "yaml-scene/src/utils/time"
+import { TimeUtils } from "yaml-scene/src/utils/TimeUtils"
 import merge from "lodash.merge"
 import { ElementProxy } from "yaml-scene/src/elements/ElementProxy"
 import { Exporter } from "./Exporter"

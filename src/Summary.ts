@@ -1,7 +1,7 @@
 import chalk from "chalk"
 import merge from "lodash.merge"
 import { ElementProxy } from "yaml-scene/src/elements/ElementProxy"
-import { TimeUtils } from "yaml-scene/src/utils/time"
+import { TimeUtils } from "yaml-scene/src/utils/TimeUtils"
 
 /**
  * @guide

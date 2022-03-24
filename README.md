@@ -14,8 +14,8 @@ Support to send http(s) requests, API document and Http(s) mock server
   - Build router for yourself by code
 - Generate API document
 
-## Guideline document
-> [GUIDELINE DOCUMENT](./GUIDE.md)
+## Details document
+> [Wiki Pages](https://github.com/doanthuanthanh88/yas-http/wiki)
 
 ## Prerequisite
 - Platform [`yaml-scene`](https://www.npmjs.com/package/yaml-scene)

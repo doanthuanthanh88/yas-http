@@ -11,7 +11,7 @@ import merge from "lodash.merge";
 import { ElementFactory } from 'yaml-scene/src/elements/ElementFactory';
 import { ElementProxy } from 'yaml-scene/src/elements/ElementProxy';
 import { IElement } from 'yaml-scene/src/elements/IElement';
-import { TimeUtils } from 'yaml-scene/src/utils/time';
+import { TimeUtils } from "yaml-scene/src/utils/TimeUtils"
 import { CRUD } from './CRUD';
 
 /**

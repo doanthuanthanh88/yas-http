@@ -1,6 +1,6 @@
 import { ProgressBar } from "yaml-scene/src/utils/progress-bar/ProgressBar"
 import { ReaderProgressBar } from "yaml-scene/src/utils/progress-bar/ReaderProgressBar"
-import { TimeUtils } from "yaml-scene/src/utils/time"
+import { TimeUtils } from "yaml-scene/src/utils/TimeUtils"
 import Axios from "axios"
 import chalk from "chalk"
 import FormData from 'form-data'
