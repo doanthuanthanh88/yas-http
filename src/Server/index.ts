@@ -82,8 +82,8 @@ import { CRUD } from './CRUD';
                                                 # - Default method is GET
         path: /posts/:id                        # Request path
         handler: |                              # Handle code which handle request and response data
-          // _: this.proxy, 
-          // __: this, 
+          // _: this, 
+          // __: this.proxy, 
           // params: Request params
           // headers: Request headers
           // query: Request query string

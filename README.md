@@ -219,3 +219,11 @@ Add `doc` in the `yas-http/Get`... to export to document
       tags: [POST]
     ...
 ```
+
+## API request summary
+Collect information of http(s) calls
+
+```yaml
+yas-http/Summary:
+  title: Testing result
+```

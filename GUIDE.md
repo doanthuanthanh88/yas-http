@@ -41,7 +41,7 @@ Send a request via http with custom method
     }
     timeout: 1s                                                 # Request timeout
     saveTo: /file_downloaded.txt                                # Request file from server then download and save to this path
-    validate:                                                   # Validate response after request done. (Reference to #Validate)
+    validate:                                                   # Validate response after request done. Reference to [Validate](https://github.com/doanthuanthanh88/yaml-scene/wiki#Validate)
       - title: Response status is valid
         chai: ${expect(_.response.status).to.equal(200)}
 ```
@@ -64,7 +64,7 @@ Send a DELETE request via http
     headers:                                                    # Request headers
       authorization: ...
     timeout: 1s                                                 # Request timeout
-    validate:                                                   # Validate response after request done. (Reference to #Validate)
+    validate:                                                   # Validate response after request done. Reference to [Validate](https://github.com/doanthuanthanh88/yaml-scene/wiki#Validate)
       - title: Response status is valid
         chai: ${expect(_.response.status).to.equal(204)}
 ```
@@ -88,7 +88,7 @@ Send a GET request via http
       authorization: ...
     timeout: 1s                                                 # Request timeout
     saveTo: /file_downloaded.txt                                # Request file from server then download and save to this path
-    validate:                                                   # Validate response after request done. (Reference to #Validate)
+    validate:                                                   # Validate response after request done. Reference to [Validate](https://github.com/doanthuanthanh88/yaml-scene/wiki#Validate)
       - title: Response status is valid
         chai: ${expect(_.response.status).to.equal(200)}
 ```
@@ -115,7 +115,7 @@ Send a Patch request via http
       file: !binary ./my_file.txt                               # Use !binary to upload a file to server (content-type: multipart/form-data)
     }
     timeout: 1s                                                 # Request timeout
-    validate:                                                   # Validate response after request done. (Reference to #Validate)
+    validate:                                                   # Validate response after request done. Reference to [Validate](https://github.com/doanthuanthanh88/yaml-scene/wiki#Validate)
       - title: Response status is valid
         chai: ${expect(_.response.status).to.equal(200)}
 ```
@@ -142,7 +142,7 @@ Send a Post request via http
       file: !binary ./my_file.txt                               # Use !binary to upload a file to server (content-type: multipart/form-data)
     }
     timeout: 1s                                                 # Request timeout
-    validate:                                                   # Validate response after request done. (Reference to #Validate)
+    validate:                                                   # Validate response after request done. Reference to [Validate](https://github.com/doanthuanthanh88/yaml-scene/wiki#Validate)
       - title: Response status is valid
         chai: ${expect(_.response.status).to.equal(200)}
 ```
@@ -169,7 +169,7 @@ Send a Put request via http
       file: !binary ./my_file.txt                               # Use !binary to upload a file to server (content-type: multipart/form-data)
     }
     timeout: 1s                                                 # Request timeout
-    validate:                                                   # Validate response after request done. (Reference to #Validate)
+    validate:                                                   # Validate response after request done. Reference to [Validate](https://github.com/doanthuanthanh88/yaml-scene/wiki#Validate)
       - title: Response status is valid
         chai: ${expect(_.response.status).to.equal(200)}
 ```
@@ -192,7 +192,7 @@ Send a Head request via http
     headers:                                                    # Request headers
       authorization: ...
     timeout: 1s                                                 # Request timeout
-    validate:                                                   # Validate response after request done. (Reference to #Validate)
+    validate:                                                   # Validate response after request done. Reference to [Validate](https://github.com/doanthuanthanh88/yaml-scene/wiki#Validate)
       - title: Response status is valid
         chai: ${expect(_.response.status).to.equal(204)}
 ```
@@ -264,8 +264,8 @@ Mock API server
                                                 # - Default method is GET
         path: /posts/:id                        # Request path
         handler: |                              # Handle code which handle request and response data
-          // _: this.proxy, 
-          // __: this, 
+          // _: this, 
+          // __: this.proxy, 
           // params: Request params
           // headers: Request headers
           // query: Request query string

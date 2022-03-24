@@ -25,7 +25,7 @@ import { Method } from "./Method";
       file: !binary ./my_file.txt                               # Use !binary to upload a file to server (content-type: multipart/form-data)
     }
     timeout: 1s                                                 # Request timeout
-    validate:                                                   # Validate response after request done. (Reference to #Validate)
+    validate:                                                   # Validate response after request done. Reference to [Validate](https://github.com/doanthuanthanh88/yaml-scene/wiki#Validate)
       - title: Response status is valid
         chai: ${expect(_.response.status).to.equal(200)}
  * @end
