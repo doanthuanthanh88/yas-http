@@ -24,7 +24,7 @@ import { Method } from "./Method";
     saveTo: /file_downloaded.txt                                # Request file from server then download and save to this path
     validate:                                                   # Validate response after request done. Reference to [Validate](https://github.com/doanthuanthanh88/yaml-scene/wiki#Validate)
       - title: Response status is valid
-        chai: ${expect(_.response.status).to.equal(200)}
+        chai: ${expect($.response.status).to.equal(200)}
  * @end 
  */
 export default class Get extends Api {
