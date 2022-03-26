@@ -21,7 +21,7 @@
       "additionalProperties": false,
       "properties": {
         "$id/Api": {
-          "allOf": [
+          "anyOf": [
             {
               "$ref": "#/definitions/$id_api"
             },
@@ -29,7 +29,7 @@
               "type": "object",
               "properties": {
                 "method": {
-                  "$ref": "#/definitions/httpMethod",
+                  "$ref": "#/definitions/$id__httpMethod",
                   "default": "GET"
                 }
               }
@@ -60,7 +60,7 @@
         },
         "$id/Patch": {
           "description": "Patch request",
-          "allOf": [
+          "anyOf": [
             {
               "$ref": "#/definitions/$id_api"
             },
@@ -77,7 +77,7 @@
         },
         "$id/Post": {
           "description": "Post request",
-          "allOf": [
+          "anyOf": [
             {
               "$ref": "#/definitions/$id_api"
             },
@@ -94,7 +94,7 @@
         },
         "$id/Put": {
           "description": "Put request",
-          "allOf": [
+          "anyOf": [
             {
               "$ref": "#/definitions/$id_api"
             },
@@ -112,10 +112,11 @@
       }
     },
     "$id_api": {
-      "description": "Summary API requests",
+      "description": "API request",
       "type": "object",
       "additionalProperties": false,
       "properties": {
+        "...": "defaultAttrs",
         "title": {
           "$ref": "#/definitions/getVar",
           "description": "Request title"
@@ -187,11 +188,8 @@
         "validate": {
           "type": "array",
           "items": {
-            "type": "object",
-            "properties": {
-              "...": "validate",
-              "description": "Validate API after received response"
-            }
+            "...": "validate",
+            "description": "Validate API after received response"
           }
         }
       }
@@ -200,8 +198,8 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "$id/Summary": {
-          "description": "Summary API requests",
+        "$id/Doc/MD": {
+          "description": "Api Document",
           "type": "object",
           "additionalProperties": false,
           "properties": {
@@ -215,7 +213,10 @@
             },
             "signature": {
               "$ref": "#/definitions/getVar",
-              "description": "Developer information"
+              "description": "Developer information",
+              "examples": [
+                "[Doan Thuan Thanh](mailto:doanthuanthanh88@gmail.com)"
+              ]
             },
             "outFile": {
               "$ref": "#/definitions/getVar",
@@ -230,7 +231,6 @@
       "additionalProperties": false,
       "properties": {
         "$id/Summary": {
-          "...": "defaultAttrs",
           "description": "Summary API requests",
           "type": "object",
           "additionalProperties": false,
@@ -248,11 +248,11 @@
       "additionalProperties": false,
       "properties": {
         "$id/Server": {
-          "...": "defaultAttrs",
           "description": "Mock API Server",
           "type": "object",
           "additionalProperties": false,
           "properties": {
+            "...": "defaultAttrs",
             "title": {
               "$ref": "#/definitions/getVar",
               "description": "Description"
@@ -373,7 +373,7 @@
                         "description": "Request path"
                       },
                       "method": {
-                        "$ref": "#/definitions/httpMethod",
+                        "$ref": "#/definitions/$id__httpMethod",
                         "default": "GET"
                       },
                       "response": {
@@ -412,7 +412,7 @@
                         "description": "Request path"
                       },
                       "method": {
-                        "$ref": "#/definitions/httpMethod",
+                        "$ref": "#/definitions/$id__httpMethod",
                         "default": "GET"
                       },
                       "handle": {
