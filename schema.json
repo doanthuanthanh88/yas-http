@@ -1,0 +1,267 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "yas-http",
+  "oneOf": [
+    {
+      "$ref": "#/definitions/$id__Server"
+    }
+  ],
+  "definitions": {
+    "$id__Server": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "$id/Server": {
+          "...": "defaultAttrs",
+          "description": "Mock API Server",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "title": {
+              "$ref": "#/definitions/getVar",
+              "description": "Description"
+            },
+            "timeout": {
+              "description": "Server will be stoped after timeout",
+              "$ref": "#/definitions/time"
+            },
+            "https": {
+              "oneOf": [
+                {
+                  "type": "boolean",
+                  "description": "Enable https"
+                },
+                {
+                  "type": "object",
+                  "description": "Enable https with customize `key` and `cert` of https",
+                  "properties": {
+                    "key": {
+                      "type": "string"
+                    },
+                    "cert": {
+                      "type": "string"
+                    }
+                  }
+                }
+              ],
+              "examples": [
+                "0.0.0.0"
+              ]
+            },
+            "host": {
+              "type": "string",
+              "examples": [
+                "0.0.0.0"
+              ]
+            },
+            "port": {
+              "type": "number",
+              "examples": [
+                3000
+              ]
+            },
+            "routers": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "description": "Serve static file",
+                    "type": "object",
+                    "properties": {
+                      "serveIn": {
+                        "description": "All of files in the list folders will be served after request to",
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "description": "Upload file",
+                    "type": "object",
+                    "required": [
+                      "path",
+                      "uploadTo"
+                    ],
+                    "properties": {
+                      "path": {
+                        "type": "string",
+                        "description": "Request path"
+                      },
+                      "method": {
+                        "$ref": "#/definitions/$id__httpMethod",
+                        "default": "POST"
+                      },
+                      "uploadTo": {
+                        "type": "string",
+                        "description": "Path which uploading file will be saved after uploaded"
+                      }
+                    }
+                  },
+                  {
+                    "description": "Auto CRUD APIs",
+                    "type": "object",
+                    "required": [
+                      "path",
+                      "uploadTo"
+                    ],
+                    "properties": {
+                      "path": {
+                        "type": "string",
+                        "description": "Request path"
+                      },
+                      "CRUD": {
+                        "type": "boolean",
+                        "description": "Auto create full RESTful API"
+                      },
+                      "initData": {
+                        "type": [
+                          "array",
+                          "object"
+                        ],
+                        "description": "Init data"
+                      }
+                    }
+                  },
+                  {
+                    "description": "Mock API Data",
+                    "type": "object",
+                    "required": [
+                      "path",
+                      "response"
+                    ],
+                    "properties": {
+                      "path": {
+                        "type": "string",
+                        "description": "Request path"
+                      },
+                      "method": {
+                        "$ref": "#/definitions/httpMethod",
+                        "default": "GET"
+                      },
+                      "response": {
+                        "type": "object",
+                        "description": "Response data",
+                        "required": [
+                          "data"
+                        ],
+                        "properties": {
+                          "status": {
+                            "type": "number"
+                          },
+                          "statusMessage": {
+                            "type": "string"
+                          },
+                          "headers": {
+                            "type": "object"
+                          },
+                          "data": {
+                            "$ref": "#/definitions/getVarAny"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "description": "Manual handle request, response by code",
+                    "type": "object",
+                    "required": [
+                      "path",
+                      "handler"
+                    ],
+                    "properties": {
+                      "path": {
+                        "type": "string",
+                        "description": "Request path"
+                      },
+                      "method": {
+                        "$ref": "#/definitions/httpMethod",
+                        "default": "GET"
+                      },
+                      "handle": {
+                        "description": "Write code to handle request, response",
+                        "$ref": "#/definitions/functional"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "async": {
+            "description": "Run asynchronized",
+            "$ref": "#/definitions/getVarBooleanString",
+            "examples": [
+              "true",
+              "false",
+              "${isAsync}"
+            ]
+          },
+          "loop": {
+            "description": "Conditional to check before loop steps. ($.loopValue, $.loopKey)",
+            "$ref": "#/definitions/getVarAny",
+            "examples": [
+              "${[1,2,3,4]}",
+              "${{key1: value1, key2: value2}}",
+              "${list}",
+              "${isRun}"
+            ]
+          },
+          "logLevel": {
+            "description": "How to show log",
+            "$ref": "#/definitions/logLevel"
+          },
+          "delay": {
+            "description": "Sleep in specific time before keep playing the next",
+            "$temp": "time"
+          },
+          "if": {
+            "description": "Check conditional to decide to run it or NOT",
+            "$ref": "#/definitions/getVarBooleanString"
+          },
+          "->": {
+            "description": "Expose for others extends",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            ]
+          },
+          "<-": {
+            "description": "Extends others which is exposed by '->'",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "$id__httpMethod": {
+      "type": "string",
+      "description": "Http method",
+      "enum": [
+        "GET",
+        "POST",
+        "PUT",
+        "PATCH",
+        "DELETE",
+        "HEAD"
+      ]
+    }
+  }
+}
