@@ -174,7 +174,7 @@ Create mock API Server without code
     routers:                                    # Defined routes
       - method: GET                             # Request method (GET, POST, PUT, PATCH, DELETE, HEAD) (Default: GET)
         path: /posts/:id                        # Request path
-        handler: |                              # Handle code which handle request and response data
+        handler: !function |                              # Handle code which handle request and response data
           /** Some vars can used in code
            * _: this.proxy, 
            * __: this, 

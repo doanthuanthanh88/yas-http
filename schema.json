@@ -4,9 +4,245 @@
   "oneOf": [
     {
       "$ref": "#/definitions/$id__Server"
+    },
+    {
+      "$ref": "#/definitions/$id__Summary"
+    },
+    {
+      "$ref": "#/definitions/$id__Doc_MD"
+    },
+    {
+      "$ref": "#/definitions/$id__Api"
     }
   ],
   "definitions": {
+    "$id__Api": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "$id/Api": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/$id_api"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "$ref": "#/definitions/httpMethod",
+                  "default": "GET"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "properties": {
+                "body": {
+                  "$ref": "#/definitions/getVarObjectString",
+                  "description": "Request body"
+                }
+              }
+            }
+          ],
+          "description": "Custom request"
+        },
+        "$id/Get": {
+          "$ref": "#/definitions/$id_api",
+          "description": "Get request"
+        },
+        "$id/Head": {
+          "$ref": "#/definitions/$id_api",
+          "description": "Head request"
+        },
+        "$id/Delete": {
+          "$ref": "#/definitions/$id_api",
+          "description": "Delete request"
+        },
+        "$id/Patch": {
+          "description": "Patch request",
+          "allOf": [
+            {
+              "$ref": "#/definitions/$id_api"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "body": {
+                  "$ref": "#/definitions/getVarObjectString",
+                  "description": "Request body"
+                }
+              }
+            }
+          ]
+        },
+        "$id/Post": {
+          "description": "Post request",
+          "allOf": [
+            {
+              "$ref": "#/definitions/$id_api"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "body": {
+                  "$ref": "#/definitions/getVarObjectString",
+                  "description": "Request body"
+                }
+              }
+            }
+          ]
+        },
+        "$id/Put": {
+          "description": "Put request",
+          "allOf": [
+            {
+              "$ref": "#/definitions/$id_api"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "body": {
+                  "$ref": "#/definitions/getVarObjectString",
+                  "description": "Request body"
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "$id_api": {
+      "description": "Summary API requests",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "$ref": "#/definitions/getVar",
+          "description": "Request title"
+        },
+        "description": {
+          "$ref": "#/definitions/getVar",
+          "description": "Request description"
+        },
+        "baseURL": {
+          "$ref": "#/definitions/getVar",
+          "description": "Host name and prefix path",
+          "examples": [
+            "http://localhost/user-service"
+          ]
+        },
+        "url": {
+          "$ref": "#/definitions/getVar",
+          "description": "Full URL (Got no baseURL) or subpath(Got baseURL)",
+          "examples": [
+            "http://localhost/user-service/users",
+            "/users"
+          ]
+        },
+        "params": {
+          "$ref": "#/definitions/getVarObjectString",
+          "description": "Request params. (In the example, url is '/product/1')"
+        },
+        "query": {
+          "$ref": "#/definitions/getVarObjectString",
+          "description": "Request querystring (In the example, url is appended '?order=name')"
+        },
+        "headers": {
+          "$ref": "#/definitions/getVarObjectString",
+          "description": "Request headers"
+        },
+        "saveTo": {
+          "$ref": "#/definitions/getVar",
+          "description": "Request file to server then download and save to this path"
+        },
+        "timeout": {
+          "description": "Request timeout",
+          "$ref": "#/definitions/time"
+        },
+        "doc": {
+          "anyOf": [
+            {
+              "description": "Document it",
+              "type": "boolean"
+            },
+            {
+              "type": "object",
+              "description": "Document it",
+              "properties": {
+                "tags": {
+                  "description": "Set tags for the API in document",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "var": {
+          "description": "Set response data in global vars",
+          "$ref": "#/definitions/setVar"
+        },
+        "validate": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "...": "validate",
+              "description": "Validate API after received response"
+            }
+          }
+        }
+      }
+    },
+    "$id__Doc_MD": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "$id/Summary": {
+          "description": "Summary API requests",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "title": {
+              "$ref": "#/definitions/getVar",
+              "description": "API document title"
+            },
+            "description": {
+              "$ref": "#/definitions/getVar",
+              "description": "API document description"
+            },
+            "signature": {
+              "$ref": "#/definitions/getVar",
+              "description": "Developer information"
+            },
+            "outFile": {
+              "$ref": "#/definitions/getVar",
+              "description": "Ouptut path of API document file"
+            }
+          }
+        }
+      }
+    },
+    "$id__Summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "$id/Summary": {
+          "...": "defaultAttrs",
+          "description": "Summary API requests",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "title": {
+              "$ref": "#/definitions/getVar",
+              "description": "Description"
+            }
+          }
+        }
+      }
+    },
     "$id__Server": {
       "type": "object",
       "additionalProperties": false,
@@ -181,7 +417,10 @@
                       },
                       "handle": {
                         "description": "Write code to handle request, response",
-                        "$ref": "#/definitions/functional"
+                        "$ref": "#/definitions/functional",
+                        "examples": [
+                          "!function | \nconsole.log('')"
+                        ]
                       }
                     }
                   }

@@ -2,16 +2,16 @@ extensions:
   yas-http: ../../dist
 steps:
   - Templates:
-    - yas-http/Api:
-        ->: base
-        baseURL: http://localhost:3000
+      - yas-http/Api:
+          ->: base
+          baseURL: http://localhost:3000
 
   - yas-http/Get:
       <-: base
       title: Get all of posts
       url: /posts
       var: posts
-      doc: 
+      doc:
         tags: [POST, RETURNS]
 
   - yas-http/Post:
@@ -23,7 +23,7 @@ steps:
         title: title 2
         author: typicode 2
       var: newOne
-      doc: 
+      doc:
         tags: [POST, ACTIONS]
 
   - yas-http/Put:
@@ -37,7 +37,7 @@ steps:
         title: title 2 updated
         author: typicode 2 updated
       var: updatedOne
-      doc: 
+      doc:
         tags: [POST, ACTIONS]
 
   - yas-http/Get:
@@ -47,7 +47,7 @@ steps:
       params:
         id: 2
       var: details
-      doc: 
+      doc:
         tags: [POST, RETURNS]
 
   - yas-http/Get:
@@ -74,9 +74,10 @@ steps:
       url: /posts/:id
       params:
         id: 2
-      var: 
-        status: \${_.response.status}
-      doc: 
+      var:
+        status: ${$.response.status}
+      doc:
         tags: [POST, ACTIONS]
 
-  - !fragment ./Doc.yaml
+  - !fragment ./Doc.yas.yaml
+  - !fragment ./Summary.yas.yaml

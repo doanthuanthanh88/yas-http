@@ -40,7 +40,7 @@ steps:
                   ]
               - method: GET
                 path: /posts/:id
-                handler: |
+                handler: !function |
                   headers.server = 'nginx'
                   ctx.status = 200
                   ctx.statusMessage = 'OK'
@@ -131,6 +131,9 @@ steps:
                   params:
                     id: 2
                   var: details
+                  validate:
+                    - title: Check response status
+                      chai: \${expect($.response.status).to.equal(200)}
 
               - yas-http/Delete:
                   <-: base
@@ -139,7 +142,7 @@ steps:
                   params:
                     id: 2
                   var: 
-                    status: \${_.response.status}
+                    status: \${$.response.status}
 
               - yas-http/Post:
                   <-: base

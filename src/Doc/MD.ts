@@ -1,8 +1,9 @@
 import Api from "@app/Api"
-import { File } from "yaml-scene/src/elements/File/adapter/File"
-import { TimeUtils } from "yaml-scene/src/utils/TimeUtils"
 import merge from "lodash.merge"
 import { ElementProxy } from "yaml-scene/src/elements/ElementProxy"
+import { File } from "yaml-scene/src/elements/File/adapter/File"
+import { IElement } from "yaml-scene/src/elements/IElement"
+import { TimeUtils } from "yaml-scene/src/utils/TimeUtils"
 import { Exporter } from "./Exporter"
 
 /**
@@ -19,7 +20,7 @@ import { Exporter } from "./Exporter"
     outFile: ./api_document_details.md
  * @end
  */
-export default class ApiMD {
+export default class ApiMD implements IElement {
   proxy: ElementProxy<ApiMD>
   apis: Api[]
 

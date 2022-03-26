@@ -1,8 +1,6 @@
-import { ProgressBar } from "yaml-scene/src/utils/progress-bar/ProgressBar"
-import { ReaderProgressBar } from "yaml-scene/src/utils/progress-bar/ReaderProgressBar"
-import { TimeUtils } from "yaml-scene/src/utils/TimeUtils"
 import Axios from "axios"
 import chalk from "chalk"
+import { CurlGenerator } from 'curl-generator'
 import FormData from 'form-data'
 import { createWriteStream } from "fs"
 import { Agent } from 'http'
@@ -13,8 +11,10 @@ import { ElementFactory } from "yaml-scene/src/elements/ElementFactory"
 import { ElementProxy } from "yaml-scene/src/elements/ElementProxy"
 import { IElement } from "yaml-scene/src/elements/IElement"
 import Validate from "yaml-scene/src/elements/Validate"
+import { ProgressBar } from "yaml-scene/src/utils/progress-bar/ProgressBar"
+import { ReaderProgressBar } from "yaml-scene/src/utils/progress-bar/ReaderProgressBar"
+import { TimeUtils } from "yaml-scene/src/utils/TimeUtils"
 import { Method } from "./Method"
-import { CurlGenerator } from 'curl-generator'
 // process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 // axios.interceptors.request.use(function (config) {
@@ -34,7 +34,9 @@ import { CurlGenerator } from 'curl-generator'
 - yas-http/Api:
     title: Update a product                                     # Api name
     description: It's only serve content for admin              # Api description
-    doc: true                                                   # Push it to queue to export to doc in element `yas-http/Doc/MD`
+    doc: true                                                   # Document it. Reference to "yas-http/Doc/MD"
+    doc: 
+      tags: [USER]
     method: PUT                                                 # Request method (GET, POST, PUT, DELETE, PATCH, HEAD...)
     baseURL: http://localhost:3000                              
     url: /product/:id
@@ -48,8 +50,14 @@ import { CurlGenerator } from 'curl-generator'
       name: "thanh",
       file: !binary ./my_file.txt                               # Use !binary to upload a file to server (content-type: multipart/form-data)
     }
+    var: "responseData"                                         # Set response data to "responseData" in global vars
+    
+    var:                                                        # Map response data to global vars
+      status: ${$.response.status}
+      responseData: ${$.response.data}
+
     timeout: 1s                                                 # Request timeout
-    saveTo: /file_downloaded.txt                                # Request file from server then download and save to this path
+    saveTo: /file_downloaded.txt                                # Request file to server then download and save to this path
     validate:                                                   # Validate response after request done. Reference to [Validate](https://github.com/doanthuanthanh88/yaml-scene/wiki#Validate)
       - title: Response status is valid
         chai: ${expect($.response.status).to.equal(200)}        # `$.response` is response data after send a request. ($.params, $.query...)
@@ -57,6 +65,8 @@ import { CurlGenerator } from 'curl-generator'
  */
 export default class Api implements IElement {
   proxy: ElementProxy<Api>
+  $$: IElement;
+  $: this;
 
   title: string
   description: string
@@ -111,7 +121,7 @@ export default class Api implements IElement {
       ...props,
       validate: props.validate?.map(v => {
         const _v = ElementFactory.CreateElement<Validate>('Validate', this.proxy.scenario)
-        v.changeLogLevel(props.logLevel)
+        _v.changeLogLevel(props.logLevel)
         _v.init(v)
         return _v
       })
@@ -119,10 +129,6 @@ export default class Api implements IElement {
   }
 
   prepare() {
-    this.validate?.forEach(_v => {
-      _v._ = this
-      _v.__ = this.proxy.__
-    })
     this.title = this.proxy.getVar(this.title)
     this.description = this.proxy.getVar(this.description)
     this.baseURL = this.proxy.getVar(this.baseURL) || ''
@@ -139,12 +145,12 @@ export default class Api implements IElement {
     if (this.saveTo) {
       this.saveTo = this.proxy.resolvePath(this.saveTo)
     }
+    this.validate?.forEach(v => {
+      v.element['$'] = this.$
+      v.element['$$'] = this.$$
+    })
     if (!this.headers['content-type']) this.headers['content-type'] = 'application/json'
     this.doc = this.proxy.getVar(this.doc)
-    this.validate?.forEach(v => {
-      v._ = this.proxy._
-      v.__ = this.proxy.__
-    })
   }
 
   async exec() {
@@ -310,7 +316,7 @@ export default class Api implements IElement {
 
   private applyToVar() {
     if (this.var && this.response) {
-      this.proxy.setVar(this.var, this, 'response.data')
+      this.proxy.setVar(this.var, { $: this.$ }, '$.response.data')
     }
   }
 

@@ -1,6 +1,7 @@
 import chalk from "chalk"
 import merge from "lodash.merge"
 import { ElementProxy } from "yaml-scene/src/elements/ElementProxy"
+import { IElement } from "yaml-scene/src/elements/IElement"
 import { TimeUtils } from "yaml-scene/src/utils/TimeUtils"
 
 /**
@@ -14,7 +15,7 @@ import { TimeUtils } from "yaml-scene/src/utils/TimeUtils"
     title: Testing result
  * @end
  */
-export default class Summary {
+export default class Summary implements IElement {
   proxy: ElementProxy<Summary>
 
   title: string

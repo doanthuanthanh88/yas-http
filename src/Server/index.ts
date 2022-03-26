@@ -13,6 +13,7 @@ import { ElementProxy } from 'yaml-scene/src/elements/ElementProxy';
 import { IElement } from 'yaml-scene/src/elements/IElement';
 import { TimeUtils } from "yaml-scene/src/utils/TimeUtils"
 import { CRUD } from './CRUD';
+import { Functional } from "yaml-scene/src/tags/model/Functional"
 
 /**
  * @guide
@@ -35,8 +36,8 @@ import { CRUD } from './CRUD';
 
     routers:                                    # Defined routes
 
-      # Server static files
-      - serveIn: [./assets]                     # All of files in list will be served after request to
+      # Serve static files
+      - serveIn: [./assets]                     # All of files in the list folders will be served after request to
 
       # Server upload API
       - path: /upload                           # Upload path. Default method is POST
@@ -81,7 +82,7 @@ import { CRUD } from './CRUD';
       - method: GET                             # Request method (POST, PUT, PATCH, DELETE, HEAD)
                                                 # - Default method is GET
         path: /posts/:id                        # Request path
-        handler: |                              # Handle code which handle request and response data
+        handler: !function |                    # Handle code which handle request and response data
           // _: this, 
           // __: this.proxy, 
           // params: Request params
@@ -189,7 +190,7 @@ zsqKxI1xw5qstqlVX3MQR6n8xTfr2Ec6W3lGbtuQ0MEHYbT8
     /** Customize request and response */
     method: string;
     path: string;
-    handler?: string | Function
+    handler?: string | Functional
   })[]
 
   #app?: Koa;
@@ -263,8 +264,9 @@ zsqKxI1xw5qstqlVX3MQR6n8xTfr2Ec6W3lGbtuQ0MEHYbT8
           } else if (r.handler) {
             // Manual handler response data
             if (typeof r.handler !== 'function') {
+              r.handler = Functional.GetFuntion(r.handler)
               handler = async (ctx, next) => {
-                const rs = await this.proxy.eval(r.handler, { params: ctx.params, headers: ctx.headers, query: ctx.request.query, body: ctx.request.body, request: ctx.request, ctx: ctx });
+                const rs = await this.proxy.eval(r.handler.toString(), { params: ctx.params, headers: ctx.headers, query: ctx.request.query, body: ctx.request.body, request: ctx.request, ctx: ctx });
                 if (ctx.body === undefined) ctx.body = rs
                 if (ctx.body === undefined) ctx.body = null
                 return next()

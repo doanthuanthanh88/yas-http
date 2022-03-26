@@ -25,7 +25,9 @@ Send a request via http with custom method
 - yas-http/Api:
     title: Update a product                                     # Api name
     description: It's only serve content for admin              # Api description
-    doc: true                                                   # Push it to queue to export to doc in element `yas-http/Doc/MD`
+    doc: true                                                   # Document it. Reference to "yas-http/Doc/MD"
+    doc: 
+      tags: [USER]
     method: PUT                                                 # Request method (GET, POST, PUT, DELETE, PATCH, HEAD...)
     baseURL: http://localhost:3000                              
     url: /product/:id
@@ -39,11 +41,17 @@ Send a request via http with custom method
       name: "thanh",
       file: !binary ./my_file.txt                               # Use !binary to upload a file to server (content-type: multipart/form-data)
     }
+    var: "responseData"                                         # Set response data to "responseData" in global vars
+    
+    var:                                                        # Map response data to global vars
+      status: ${$.response.status}
+      responseData: ${$.response.data}
+
     timeout: 1s                                                 # Request timeout
-    saveTo: /file_downloaded.txt                                # Request file from server then download and save to this path
+    saveTo: /file_downloaded.txt                                # Request file to server then download and save to this path
     validate:                                                   # Validate response after request done. Reference to [Validate](https://github.com/doanthuanthanh88/yaml-scene/wiki#Validate)
       - title: Response status is valid
-        chai: ${expect($.response.status).to.equal(200)}        # `$.response` is response data after send a request
+        chai: ${expect($.response.status).to.equal(200)}        # `$.response` is response data after send a request. ($.params, $.query...)
 ```
 
 
@@ -217,8 +225,8 @@ Mock API server
 
     routers:                                    # Defined routes
 
-      # Server static files
-      - serveIn: [./assets]                     # All of files in list will be served after request to
+      # Serve static files
+      - serveIn: [./assets]                     # All of files in the list folders will be served after request to
 
       # Server upload API
       - path: /upload                           # Upload path. Default method is POST
@@ -263,7 +271,7 @@ Mock API server
       - method: GET                             # Request method (POST, PUT, PATCH, DELETE, HEAD)
                                                 # - Default method is GET
         path: /posts/:id                        # Request path
-        handler: |                              # Handle code which handle request and response data
+        handler: !function |                    # Handle code which handle request and response data
           // _: this, 
           // __: this.proxy, 
           // params: Request params

@@ -108,7 +108,7 @@ steps:
                   params:
                     id: 2
                   var: 
-                    status: \${_.response.status}
+                    status: \${$.response.status}
                   doc: 
                     tags: [POST, ACTIONS]
 
