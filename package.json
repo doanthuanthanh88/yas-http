@@ -29,6 +29,7 @@
     "@koa/cors": "^3.2.0",
     "@koa/router": "^10.1.1",
     "axios": "^0.26.1",
+    "cli-progress": "^3.10.0",
     "curl-generator": "^0.2.0",
     "form-data": "^4.0.0",
     "koa": "^2.13.4",
@@ -40,6 +41,7 @@
     "yaml-scene": "^1.1.0"
   },
   "devDependencies": {
+    "@types/cli-progress": "^3.9.2",
     "@types/jest": "^27.4.1",
     "@types/koa": "^2.13.4",
     "@types/node": "^14.14.6",

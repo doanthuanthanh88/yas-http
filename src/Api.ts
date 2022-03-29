@@ -13,9 +13,9 @@ import { IElement } from "yaml-scene/src/elements/IElement"
 import Validate from "yaml-scene/src/elements/Validate"
 import { LoggerManager } from 'yaml-scene/src/singleton/LoggerManager'
 import { Scenario } from 'yaml-scene/src/singleton/Scenario'
-import { ProgressBar } from "yaml-scene/src/utils/progress-bar/ProgressBar"
-import { ReaderProgressBar } from "yaml-scene/src/utils/progress-bar/ReaderProgressBar"
 import { TimeUtils } from "yaml-scene/src/utils/TimeUtils"
+import { ProgressBar } from "./libs/progress-bar/ProgressBar"
+import { ReaderProgressBar } from "./libs/progress-bar/ReaderProgressBar"
 import { Method } from "./Method"
 // process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
