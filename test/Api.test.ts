@@ -1,14 +1,12 @@
 import { readFileSync, unlinkSync } from "fs"
 import { join } from "path"
 import { Simulator } from "yaml-scene/src/Simulator"
-import { Scenario } from "yaml-scene/src/singleton/Scenario"
+import { VariableManager } from "yaml-scene/src/singleton/VariableManager"
 
 describe('Api CRUD, serve', () => {
   const port = 3003
-  let scenario: Scenario
-
   beforeAll(async () => {
-    scenario = await Simulator.Run(`
+    await Simulator.Run(`
 extensions:
   yas-http: ${join(__dirname, '../src')}
 steps:
@@ -167,34 +165,34 @@ steps:
   }, 60000)
 
   test('Get all of posts', () => {
-    expect(scenario.variableManager.vars.posts).toHaveLength(1)
+    expect(VariableManager.Instance.vars.posts).toHaveLength(1)
   })
   test('Create a new posts', () => {
-    expect(scenario.variableManager.vars.newOne?.id).toBe(2)
+    expect(VariableManager.Instance.vars.newOne?.id).toBe(2)
   })
   test('Update a post', async () => {
-    expect(scenario.variableManager.vars.updatedOne.title).toBe('title updated')
+    expect(VariableManager.Instance.vars.updatedOne.title).toBe('title updated')
   })
   test('Update apart of post', async () => {
-    expect(scenario.variableManager.vars.updatedHOne.title).toBe('title updated')
+    expect(VariableManager.Instance.vars.updatedHOne.title).toBe('title updated')
   })
   test('Get a post details', async () => {
-    expect(scenario.variableManager.vars.details.title).toBe('title updated')
+    expect(VariableManager.Instance.vars.details.title).toBe('title updated')
   })
   test('Delete a post', async () => {
-    expect(scenario.variableManager.vars.status).toBe(204)
+    expect(VariableManager.Instance.vars.status).toBe(204)
   })
 
   test('Upload file', async () => {
-    expect(Object.keys(scenario.variableManager.vars.filesUpload).length).toEqual(3)
-    expect(readFileSync(scenario.variableManager.vars.filesUpload.file1.path).toString()).toEqual('Hello 1')
-    expect(readFileSync(scenario.variableManager.vars.filesUpload.file2.path).toString()).toEqual('Hello 2')
+    expect(Object.keys(VariableManager.Instance.vars.filesUpload).length).toEqual(3)
+    expect(readFileSync(VariableManager.Instance.vars.filesUpload.file1.path).toString()).toEqual('Hello 1')
+    expect(readFileSync(VariableManager.Instance.vars.filesUpload.file2.path).toString()).toEqual('Hello 2')
 
-    unlinkSync(scenario.variableManager.vars.filesUpload.file1.path)
-    unlinkSync(scenario.variableManager.vars.filesUpload.file2.path)
+    unlinkSync(VariableManager.Instance.vars.filesUpload.file1.path)
+    unlinkSync(VariableManager.Instance.vars.filesUpload.file2.path)
   })
 
   test('Get static file', async () => {
-    expect(scenario.variableManager.vars.staticFile).toEqual('Hello 1')
+    expect(VariableManager.Instance.vars.staticFile).toEqual('Hello 1')
   })
 })

@@ -1,10 +1,11 @@
 import { readFileSync } from "fs"
 import { join } from "path"
 import { Simulator } from "yaml-scene/src/Simulator"
+import { VariableManager } from "yaml-scene/src/singleton/VariableManager"
 
 
 test('Export to api document markdown', async () => {
-  const scenario = await Simulator.Run(`
+  await Simulator.Run(`
 extensions:
   yas-http: ${join(__dirname, '../../src')}
 steps:
@@ -118,11 +119,11 @@ steps:
       signature: "[Doan Thuan Thanh](mailto:doanthuanthanh88@gmail.com)"
       outFile: ${join(__dirname, 'ApiMD.md')}
 `)
-  expect(scenario.variableManager.vars.posts).toHaveLength(1)
-  expect(scenario.variableManager.vars.newOne?.id).toBe(2)
-  expect(scenario.variableManager.vars.updatedOne.title).toBe('title 2 updated')
-  expect(scenario.variableManager.vars.details.title).toBe('title 2 updated')
-  expect(scenario.variableManager.vars.status).toBe(204)
+  expect(VariableManager.Instance.vars.posts).toHaveLength(1)
+  expect(VariableManager.Instance.vars.newOne?.id).toBe(2)
+  expect(VariableManager.Instance.vars.updatedOne.title).toBe('title 2 updated')
+  expect(VariableManager.Instance.vars.details.title).toBe('title 2 updated')
+  expect(VariableManager.Instance.vars.status).toBe(204)
 
   const cnt = readFileSync(`${join(__dirname, 'ApiMD.md')}`).toString()
   expect(cnt).toContain('Get a post details')

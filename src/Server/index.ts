@@ -316,7 +316,7 @@ zsqKxI1xw5qstqlVX3MQR6n8xTfr2Ec6W3lGbtuQ0MEHYbT8
       this.proxy.logger.info(chalk.green('Http Server is listening at %s://%s:%d'), this.https ? 'https' : 'http', this.host, this.port);
       this.#server = this.httpObject.createServer(this.serverOption, this.#app.callback());
       this.#server.listen(this.port, this.host, async () => {
-        const pause = ElementFactory.CreateElement('Pause', this.proxy.scenario)
+        const pause = ElementFactory.CreateElement('Pause')
         pause.init({
           title: `Enter to stop the Http Server "${this.title || ''}" !`,
           time: this.timeout

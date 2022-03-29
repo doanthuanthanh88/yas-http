@@ -11,6 +11,8 @@ import { ElementFactory } from "yaml-scene/src/elements/ElementFactory"
 import { ElementProxy } from "yaml-scene/src/elements/ElementProxy"
 import { IElement } from "yaml-scene/src/elements/IElement"
 import Validate from "yaml-scene/src/elements/Validate"
+import { LoggerManager } from 'yaml-scene/src/singleton/LoggerManager'
+import { Scenario } from 'yaml-scene/src/singleton/Scenario'
 import { ProgressBar } from "yaml-scene/src/utils/progress-bar/ProgressBar"
 import { ReaderProgressBar } from "yaml-scene/src/utils/progress-bar/ReaderProgressBar"
 import { TimeUtils } from "yaml-scene/src/utils/TimeUtils"
@@ -89,8 +91,7 @@ export default class Api implements IElement {
   saveTo: string
 
   get fullUrl() {
-    const urlParams = this.params
-    return this.proxy.scenario.variableManager.get(this.url.replace(/(\:(\w+))/g, `$\{urlParams.$2\}`), { urlParams })
+    return this.proxy.getVar(this.url.replace(/(\:(\w+))/g, `$\{urlParams.$2\}`), { urlParams: this.params })
   }
 
   get contentType() {
@@ -120,7 +121,7 @@ export default class Api implements IElement {
     merge(this, { method: Method.GET }, {
       ...props,
       validate: props.validate?.map(v => {
-        const _v = ElementFactory.CreateElement<Validate>('Validate', this.proxy.scenario)
+        const _v = ElementFactory.CreateElement<Validate>('Validate')
         _v.changeLogLevel(props.logLevel)
         _v.init(v)
         return _v
@@ -248,17 +249,17 @@ export default class Api implements IElement {
       }
       this.printLog()
       if (this.error) {
-        this.proxy.scenario.events.emit('api.done', false, this)
+        Scenario.Instance.events.emit('api.done', false, this)
         throw this.error
       } else {
-        this.proxy.scenario.events.emit('api.done', true, this)
+        Scenario.Instance.events.emit('api.done', true, this)
       }
       console.groupEnd()
     }
   }
 
   private printLog() {
-    if (this.proxy.logger.getLevel() <= LogLevel.TRACE) {
+    if (this.proxy.logger.getLevel() <= LoggerManager.LogLevel.TRACE) {
       console.group()
       this.proxy.logger.debug(`%s`, chalk.red.underline(this.curl))
       let fullUrl = `${this.baseURL}${this.fullUrl}`
@@ -320,8 +321,4 @@ export default class Api implements IElement {
     }
   }
 
-}
-
-enum LogLevel {
-  TRACE = 0
 }

@@ -4,6 +4,7 @@ import { Exporter as IExporter } from 'yaml-scene/src/utils/doc/Exporter';
 import omit from 'lodash.omit';
 import { escape } from 'querystring';
 import MD from './MD';
+import { Scenario } from 'yaml-scene/src/singleton/Scenario';
 
 export class Exporter implements IExporter<Api> {
   readonly ignoreRequestHeaders = ['content-type']
@@ -28,7 +29,7 @@ export class Exporter implements IExporter<Api> {
   }
 
   export(apis: Api[]) {
-    const mdMenu = [`# ${this.md.title || this.md.proxy.scenario.title}`, `${this.md.description || this.md.proxy.scenario.description || ''}`];
+    const mdMenu = [`# ${this.md.title || Scenario.Instance.title}`, `${this.md.description || Scenario.Instance.description || ''}`];
     const mdDetails = [];
 
     if (this.md.signature) {

@@ -3,6 +3,7 @@ import merge from "lodash.merge"
 import { ElementProxy } from "yaml-scene/src/elements/ElementProxy"
 import { File } from "yaml-scene/src/elements/File/adapter/File"
 import { IElement } from "yaml-scene/src/elements/IElement"
+import { Scenario } from "yaml-scene/src/singleton/Scenario"
 import { TimeUtils } from "yaml-scene/src/utils/TimeUtils"
 import { Exporter } from "./Exporter"
 
@@ -37,7 +38,7 @@ export default class ApiMD implements IElement {
   init(props: any) {
     if (!props.outFile) throw new Error(`"outFile" is required in ${this.constructor.name}`)
     merge(this, props)
-    this.proxy.scenario.events
+    Scenario.Instance.events
       .on('api.done', (isPassed: boolean, api) => {
         if (isPassed && !!api.doc) {
           this.apis.push(api)

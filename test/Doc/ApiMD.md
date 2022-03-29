@@ -1,7 +1,7 @@
 # Post service
 Demo CRUD API to generate to markdown document
 > Developed by [Doan Thuan Thanh](mailto:doanthuanthanh88@gmail.com)  
-> Updated at 3/26/2022, 2:52:25 PM  
+> Updated at 3/29/2022, 8:47:20 AM  
 
 | | Title (6) | URL |  
 |---|---|---|  
@@ -295,7 +295,7 @@ curl "/posts" -X GET -H "content-type: application/json"
     ],
     "creator": {
       "name": "thanh",
-      "created_time": 1648306338982
+      "created_time": 1648543633266
     },
     "tags": [
       {

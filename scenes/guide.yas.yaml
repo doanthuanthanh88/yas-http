@@ -1,6 +1,6 @@
-- Doc/Guide/MD: 
+- Doc/Guide/MD:
     logLevel: debug
-    includes: 
+    includes:
       - ../src
     excludes: []
     includePattern: ".+\\.ts$"
