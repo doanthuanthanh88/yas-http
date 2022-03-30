@@ -20,10 +20,17 @@ import { Method } from "./Method";
       order: name
     headers:                                                    # Request headers
       authorization: ...
-    body: {                                                     # Request body which used in [POST, PUT, PATCH...] methods
-      name: "thanh",
-      file: !binary ./my_file.txt                               # Use !binary to upload a file to server (content-type: multipart/form-data)
-    }
+    body:                                                       # Request body which used in [POST, PUT, PATCH...] methods
+      name: "thanh"
+      file: !tag
+        tags/binary: ./my_file.txt                              # Upload a file to server (content-type: multipart/form-data)
+    
+    var: "responseData"                                         # Set response data to "responseData" in global vars
+    
+    var:                                                        # Map response data to global vars
+      status: ${$.response.status}
+      responseData: ${$.response.data}
+    
     timeout: 1s                                                 # Request timeout
     validate:                                                   # Validate response after request done. Reference to [Validate](https://github.com/doanthuanthanh88/yaml-scene/wiki#Validate)
       - title: Response status is valid

@@ -3,18 +3,18 @@
 | Element | Description |  
 |---|---|  
 | API | --- |
-|[yas-http/Api](#yas-http/Api)| Send a request via http with custom method ...|  
-|[yas-http/Delete](#yas-http/Delete)| Send a DELETE request via http ...|  
-|[yas-http/Get](#yas-http/Get)| Send a GET request via http ...|  
-|[yas-http/Patch](#yas-http/Patch)| Send a Patch request via http ...|  
-|[yas-http/Post](#yas-http/Post)| Send a Post request via http ...|  
-|[yas-http/Put](#yas-http/Put)| Send a Put request via http ...|  
-|[yas-http/Head](#yas-http/Head)| Send a Head request via http ...|  
-|[yas-http/Server](#yas-http/Server)| Mock API server ...|  
-|[yas-http/Doc/MD](#yas-http/Doc/MD)| Document api to markdown format ...|  
-|[yas-http/Summary](#yas-http/Summary)| Summary after all of apis in scene executed done. (It's should be the last step) ...|  
+|[yas-http/Api](#yas-http%2FApi)| Send a request via http with custom method ...|  
+|[yas-http/Delete](#yas-http%2FDelete)| Send a DELETE request via http ...|  
+|[yas-http/Get](#yas-http%2FGet)| Send a GET request via http ...|  
+|[yas-http/Patch](#yas-http%2FPatch)| Send a Patch request via http ...|  
+|[yas-http/Post](#yas-http%2FPost)| Send a Post request via http ...|  
+|[yas-http/Put](#yas-http%2FPut)| Send a Put request via http ...|  
+|[yas-http/Head](#yas-http%2FHead)| Send a Head request via http ...|  
+|[yas-http/Server](#yas-http%2FServer)| Mock API server ...|  
+|[yas-http/Doc/MD](#yas-http%2FDoc%2FMD)| Document api to markdown format ...|  
+|[yas-http/Summary](#yas-http%2FSummary)| Summary after all of apis in scene executed done. (It's should be the last step) ...|  
 | DOC | --- |
-|[yas-http/Doc/MD](#yas-http/Doc/MD)| Document api to markdown format ...|  
+|[yas-http/Doc/MD](#yas-http%2FDoc%2FMD)| Document api to markdown format ...|  
   
   
 # Details
@@ -37,10 +37,11 @@ Send a request via http with custom method
       order: name
     headers:                                                    # Request headers
       authorization: ...
-    body: {                                                     # Request body which used in [POST, PUT, PATCH...] methods
-      name: "thanh",
-      file: !binary ./my_file.txt                               # Use !binary to upload a file to server (content-type: multipart/form-data)
-    }
+    body:                                                       # Request body which used in [POST, PUT, PATCH...] methods
+      name: "thanh"
+      file: !tag
+        tags/binary: ./my_file.txt                              # Upload a file to server (content-type: multipart/form-data)
+    
     var: "responseData"                                         # Set response data to "responseData" in global vars
     
     var:                                                        # Map response data to global vars
@@ -118,10 +119,17 @@ Send a Patch request via http
       order: name
     headers:                                                    # Request headers
       authorization: ...
-    body: {                                                     # Request body which used in [POST, PUT, PATCH...] methods
-      name: "thanh",
-      file: !binary ./my_file.txt                               # Use !binary to upload a file to server (content-type: multipart/form-data)
-    }
+    body:                                                       # Request body which used in [POST, PUT, PATCH...] methods
+      name: "thanh"
+      file: !tag
+        tags/binary: ./my_file.txt                              # Upload a file to server (content-type: multipart/form-data)
+    
+    var: "responseData"                                         # Set response data to "responseData" in global vars
+    
+    var:                                                        # Map response data to global vars
+      status: ${$.response.status}
+      responseData: ${$.response.data}
+
     timeout: 1s                                                 # Request timeout
     validate:                                                   # Validate response after request done. Reference to [Validate](https://github.com/doanthuanthanh88/yaml-scene/wiki#Validate)
       - title: Response status is valid
@@ -145,10 +153,17 @@ Send a Post request via http
       order: name
     headers:                                                    # Request headers
       authorization: ...
-    body: {                                                     # Request body which used in [POST, PUT, PATCH...] methods
-      name: "thanh",
-      file: !binary ./my_file.txt                               # Use !binary to upload a file to server (content-type: multipart/form-data)
-    }
+    body:                                                       # Request body which used in [POST, PUT, PATCH...] methods
+      name: "thanh"
+      file: !tag
+        tags/binary: ./my_file.txt                              # Upload a file to server (content-type: multipart/form-data)
+    
+    var: "responseData"                                         # Set response data to "responseData" in global vars
+    
+    var:                                                        # Map response data to global vars
+      status: ${$.response.status}
+      responseData: ${$.response.data}
+    
     timeout: 1s                                                 # Request timeout
     validate:                                                   # Validate response after request done. Reference to [Validate](https://github.com/doanthuanthanh88/yaml-scene/wiki#Validate)
       - title: Response status is valid
@@ -172,10 +187,17 @@ Send a Put request via http
       order: name
     headers:                                                    # Request headers
       authorization: ...
-    body: {                                                     # Request body which used in [POST, PUT, PATCH...] methods
-      name: "thanh",
-      file: !binary ./my_file.txt                               # Use !binary to upload a file to server (content-type: multipart/form-data)
-    }
+    body:                                                       # Request body which used in [POST, PUT, PATCH...] methods
+      name: "thanh"
+      file: !tag
+        tags/binary: ./my_file.txt                              # Upload a file to server (content-type: multipart/form-data)
+    
+    var: "responseData"                                         # Set response data to "responseData" in global vars
+    
+    var:                                                        # Map response data to global vars
+      status: ${$.response.status}
+      responseData: ${$.response.data}
+
     timeout: 1s                                                 # Request timeout
     validate:                                                   # Validate response after request done. Reference to [Validate](https://github.com/doanthuanthanh88/yaml-scene/wiki#Validate)
       - title: Response status is valid

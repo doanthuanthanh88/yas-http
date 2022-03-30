@@ -204,12 +204,12 @@ zsqKxI1xw5qstqlVX3MQR6n8xTfr2Ec6W3lGbtuQ0MEHYbT8
     this.#router = new Router();
   }
 
-  prepare() {
-    this.timeout = this.proxy.getVar(this.timeout)
+  async prepare() {
+    this.timeout = await this.proxy.getVar(this.timeout)
     if (this.timeout) {
       this.timeout = TimeUtils.GetMsTime(this.timeout)
     }
-    this.routers = this.proxy.getVar(this.routers);
+    this.routers = await this.proxy.getVar(this.routers);
     let i: number
     for (i = 0; i < this.routers.length; i++) {
       const r: any = this.routers[i]
@@ -256,7 +256,7 @@ zsqKxI1xw5qstqlVX3MQR6n8xTfr2Ec6W3lGbtuQ0MEHYbT8
                 ctx.message = r.response?.statusText;
               if (r.response?.data) {
                 ctx.body = cloneDeep(r.response.data);
-                ctx.body = this.proxy.getVar(ctx.body, { params: ctx.params, headers: ctx.headers, query: ctx.request.query, body: ctx.request.body, request: ctx.request, ctx: ctx });
+                ctx.body = await this.proxy.getVar(ctx.body, { params: ctx.params, headers: ctx.headers, query: ctx.request.query, body: ctx.request.body, request: ctx.request, ctx: ctx });
               }
               if (ctx.body === undefined) ctx.body = null
               return next()

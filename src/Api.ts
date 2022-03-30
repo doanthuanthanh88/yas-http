@@ -48,10 +48,11 @@ import { Method } from "./Method"
       order: name
     headers:                                                    # Request headers
       authorization: ...
-    body: {                                                     # Request body which used in [POST, PUT, PATCH...] methods
-      name: "thanh",
-      file: !binary ./my_file.txt                               # Use !binary to upload a file to server (content-type: multipart/form-data)
-    }
+    body:                                                       # Request body which used in [POST, PUT, PATCH...] methods
+      name: "thanh"
+      file: !tag
+        tags/binary: ./my_file.txt                              # Upload a file to server (content-type: multipart/form-data)
+    
     var: "responseData"                                         # Set response data to "responseData" in global vars
     
     var:                                                        # Map response data to global vars
@@ -89,10 +90,7 @@ export default class Api implements IElement {
   var: any
   validate: ElementProxy<Validate>[]
   saveTo: string
-
-  get fullUrl() {
-    return this.proxy.getVar(this.url.replace(/(\:(\w+))/g, `$\{urlParams.$2\}`), { urlParams: this.params })
-  }
+  fullUrl: string
 
   get contentType() {
     return this.headers['content-type'] || this.headers['Content-Type']
@@ -129,20 +127,21 @@ export default class Api implements IElement {
     })
   }
 
-  prepare() {
-    this.title = this.proxy.getVar(this.title)
-    this.description = this.proxy.getVar(this.description)
-    this.baseURL = this.proxy.getVar(this.baseURL) || ''
-    this.timeout = this.proxy.getVar(this.timeout)
+  async prepare() {
+    this.title = await this.proxy.getVar(this.title)
+    this.description = await this.proxy.getVar(this.description)
+    this.baseURL = await this.proxy.getVar(this.baseURL) || ''
+    this.timeout = await this.proxy.getVar(this.timeout)
     if (this.timeout) {
       this.timeout = TimeUtils.GetMsTime(this.timeout)
     }
-    this.url = this.proxy.getVar(this.url)
-    this.params = this.proxy.getVar(this.params) || {}
-    this.query = this.proxy.getVar(this.query) || {}
-    this.headers = this.proxy.getVar(this.headers) || {}
-    this.body = this.proxy.getVar(this.body)
-    this.saveTo = this.proxy.getVar(this.saveTo)
+    this.url = await this.proxy.getVar(this.url)
+    this.params = await this.proxy.getVar(this.params) || {}
+    this.query = await this.proxy.getVar(this.query) || {}
+    this.headers = await this.proxy.getVar(this.headers) || {}
+    this.body = await this.proxy.getVar(this.body)
+    this.fullUrl = await this.proxy.getVar(this.url.replace(/(\:(\w+))/g, `$\{urlParams.$2\}`), { urlParams: this.params })
+    this.saveTo = await this.proxy.getVar(this.saveTo)
     if (this.saveTo) {
       this.saveTo = this.proxy.resolvePath(this.saveTo)
     }
@@ -151,7 +150,7 @@ export default class Api implements IElement {
       v.element['$$'] = this.$$
     })
     if (!this.headers['content-type']) this.headers['content-type'] = 'application/json'
-    this.doc = this.proxy.getVar(this.doc)
+    this.doc = await this.proxy.getVar(this.doc)
   }
 
   async exec() {
@@ -241,7 +240,7 @@ export default class Api implements IElement {
         try {
           await this.validateAPI()
           this.error = undefined
-          this.applyToVar()
+          await this.applyToVar()
         } catch (err) {
           this.error = err
           this.proxy.changeLogLevel('debug')
@@ -315,9 +314,9 @@ export default class Api implements IElement {
     }
   }
 
-  private applyToVar() {
+  private async applyToVar() {
     if (this.var && this.response) {
-      this.proxy.setVar(this.var, { $: this.$ }, '$.response.data')
+      await this.proxy.setVar(this.var, { $: this.$ }, '$.response.data')
     }
   }
 

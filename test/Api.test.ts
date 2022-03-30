@@ -150,8 +150,10 @@ steps:
                     content-type: multipart/form-data
                   body:
                     name: a
-                    file1: !binary ${join(__dirname, 'assets/test1.txt')}
-                    file2: !binary ${join(__dirname, 'assets/test2.txt')}
+                    file1: !tag
+                      tags/binary: ${join(__dirname, 'assets/test1.txt')}
+                    file2: !tag
+                      tags/binary: ${join(__dirname, 'assets/test2.txt')}
                   var: filesUpload
 
               - yas-http/Get:

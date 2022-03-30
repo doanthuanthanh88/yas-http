@@ -1,13 +1,12 @@
 # Post service
 Demo CRUD API to generate to markdown document
 > Developed by [Doan Thuan Thanh](mailto:doanthuanthanh88@gmail.com)  
-> Updated at 3/29/2022, 3:37:45 PM  
+> Updated at 3/30/2022, 8:20:55 AM  
 
-| | Title (7) | URL |  
+| | Title (6) | URL |  
 |---|---|---|  
-| |DEFAULT (2) | |
+| |DEFAULT (1) | |
 |**1**|[This is documented by default tag](#This%20is%20documented%20by%20default%20tag)| `GET` /posts/:id|  
-|**2**|[This is not documented](#This%20is%20not%20documented)| `GET` /posts/:id|  
 | |ACTIONS (3) | |
 |**1**|[Create a new post](#Create%20a%20new%20post)| `POST` /posts|  
 |**2**|[Delete a post](#Delete%20a%20post)| `DELETE` /posts/:id|  
@@ -38,7 +37,7 @@ Demo CRUD API to generate to markdown document
 <summary><b>cURL</b></summary>
 
 ```sh
-curl "/posts" -X POST -H "content-type: application/json" -d "{\"id\":\"2\",\"title\":\"title 2\",\"author\":\"typicode 2\"}"
+curl "/posts" -X POST -H "content-type: application/json" -d "{\"id\":2,\"title\":\"title 2\",\"author\":\"typicode 2\"}"
 ```
 
 </details>
@@ -56,7 +55,7 @@ curl "/posts" -X POST -H "content-type: application/json" -d "{\"id\":\"2\",\"ti
 
 ```json
 {
-  "id": "2",
+  "id": 2,
   "title": "title 2",
   "author": "typicode 2"
 }
@@ -70,7 +69,7 @@ curl "/posts" -X POST -H "content-type: application/json" -d "{\"id\":\"2\",\"ti
 | Name | Type |
 | --- | --- |
 |  `@ROOT` | object |
-| &nbsp;&nbsp;&nbsp;&nbsp; `id` | string |
+| &nbsp;&nbsp;&nbsp;&nbsp; `id` | number |
 | &nbsp;&nbsp;&nbsp;&nbsp; `title` | string |
 | &nbsp;&nbsp;&nbsp;&nbsp; `author` | string |
 
@@ -85,7 +84,7 @@ curl "/posts" -X POST -H "content-type: application/json" -d "{\"id\":\"2\",\"ti
 
 ```json
 {
-  "id": "2",
+  "id": 2,
   "title": "title 2",
   "author": "typicode 2"
 }
@@ -99,7 +98,7 @@ curl "/posts" -X POST -H "content-type: application/json" -d "{\"id\":\"2\",\"ti
 | Name | Type |
 | --- | --- |
 |  `@ROOT` | object |
-| &nbsp;&nbsp;&nbsp;&nbsp; `id` | string |
+| &nbsp;&nbsp;&nbsp;&nbsp; `id` | number |
 | &nbsp;&nbsp;&nbsp;&nbsp; `title` | string |
 | &nbsp;&nbsp;&nbsp;&nbsp; `author` | string |
 
@@ -137,7 +136,7 @@ curl "/posts/2" -X DELETE -H "content-type: application/json"
 
 ```json
 {
-  "id": "2"
+  "id": 2
 }
 ```
 
@@ -149,7 +148,7 @@ curl "/posts/2" -X DELETE -H "content-type: application/json"
 | Name | Type |
 | --- | --- |
 |  `@ROOT` | object |
-| &nbsp;&nbsp;&nbsp;&nbsp; `id` | string |
+| &nbsp;&nbsp;&nbsp;&nbsp; `id` | number |
 
 </details>
 
@@ -207,7 +206,7 @@ curl "/posts/2" -X GET -H "content-type: application/json"
 
 ```json
 {
-  "id": "2"
+  "id": 2
 }
 ```
 
@@ -219,7 +218,7 @@ curl "/posts/2" -X GET -H "content-type: application/json"
 | Name | Type |
 | --- | --- |
 |  `@ROOT` | object |
-| &nbsp;&nbsp;&nbsp;&nbsp; `id` | string |
+| &nbsp;&nbsp;&nbsp;&nbsp; `id` | number |
 
 </details>
 
@@ -232,7 +231,7 @@ curl "/posts/2" -X GET -H "content-type: application/json"
 
 ```json
 {
-  "id": "2",
+  "id": 2,
   "title": "title 2 updated",
   "author": "typicode 2 updated"
 }
@@ -246,7 +245,7 @@ curl "/posts/2" -X GET -H "content-type: application/json"
 | Name | Type |
 | --- | --- |
 |  `@ROOT` | object |
-| &nbsp;&nbsp;&nbsp;&nbsp; `id` | string |
+| &nbsp;&nbsp;&nbsp;&nbsp; `id` | number |
 | &nbsp;&nbsp;&nbsp;&nbsp; `title` | string |
 | &nbsp;&nbsp;&nbsp;&nbsp; `author` | string |
 
@@ -288,7 +287,7 @@ curl "/posts" -X GET -H "content-type: application/json"
 ```json
 [
   {
-    "id": "1",
+    "id": 1,
     "title": "title",
     "labels": [
       "news",
@@ -296,15 +295,15 @@ curl "/posts" -X GET -H "content-type: application/json"
     ],
     "creator": {
       "name": "thanh",
-      "created_time": "1648568259007"
+      "created_time": 1648628448881
     },
     "tags": [
       {
-        "id": "1",
+        "id": 1,
         "name": "thanh 1"
       },
       {
-        "id": "2",
+        "id": 2,
         "name": "thanh 2"
       }
     ]
@@ -320,14 +319,14 @@ curl "/posts" -X GET -H "content-type: application/json"
 | Name | Type |
 | --- | --- |
 |  `@ROOT` | array&lt;object&gt; |
-| &nbsp;&nbsp;&nbsp;&nbsp; `id` | string |
+| &nbsp;&nbsp;&nbsp;&nbsp; `id` | number |
 | &nbsp;&nbsp;&nbsp;&nbsp; `title` | string |
 | &nbsp;&nbsp;&nbsp;&nbsp; `labels` | array&lt;string&gt; |
 | &nbsp;&nbsp;&nbsp;&nbsp; `creator` | object |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; `name` | string |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; `created_time` | string |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; `created_time` | number |
 | &nbsp;&nbsp;&nbsp;&nbsp; `tags` | array&lt;object&gt; |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; `id` | string |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; `id` | number |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; `name` | string |
 
 </details>
@@ -364,7 +363,7 @@ curl "/posts/2" -X GET -H "content-type: application/json"
 
 ```json
 {
-  "id": "2"
+  "id": 2
 }
 ```
 
@@ -376,7 +375,7 @@ curl "/posts/2" -X GET -H "content-type: application/json"
 | Name | Type |
 | --- | --- |
 |  `@ROOT` | object |
-| &nbsp;&nbsp;&nbsp;&nbsp; `id` | string |
+| &nbsp;&nbsp;&nbsp;&nbsp; `id` | number |
 
 </details>
 
@@ -389,7 +388,7 @@ curl "/posts/2" -X GET -H "content-type: application/json"
 
 ```json
 {
-  "id": "2",
+  "id": 2,
   "title": "title 2 updated",
   "author": "typicode 2 updated"
 }
@@ -403,84 +402,7 @@ curl "/posts/2" -X GET -H "content-type: application/json"
 | Name | Type |
 | --- | --- |
 |  `@ROOT` | object |
-| &nbsp;&nbsp;&nbsp;&nbsp; `id` | string |
-| &nbsp;&nbsp;&nbsp;&nbsp; `title` | string |
-| &nbsp;&nbsp;&nbsp;&nbsp; `author` | string |
-
-</details>
-
-
----
-
-## [This is not documented](#) <a name="This%20is%20not%20documented"></a>
-
-
-
-- `GET /posts/:id`
-- ✅  &nbsp; **200**  *OK*
-
-
-
-<details open>
-<summary><b>cURL</b></summary>
-
-```sh
-curl "/posts/2" -X GET -H "content-type: application/json"
-```
-
-</details>
-
-
-
-<br/>
-
-## REQUEST
-### Params
-<details>
-  <summary>Example</summary>
-
-```json
-{
-  "id": "2"
-}
-```
-
-</details>
-
-<details open>
-  <summary>Schema</summary>
-
-| Name | Type |
-| --- | --- |
-|  `@ROOT` | object |
-| &nbsp;&nbsp;&nbsp;&nbsp; `id` | string |
-
-</details>
-
-## RESPONSE
-### Response data
-`Content-Type: *application/json; charset=utf-8*`  
-
-<details>
-  <summary>Example</summary>
-
-```json
-{
-  "id": "2",
-  "title": "title 2 updated",
-  "author": "typicode 2 updated"
-}
-```
-
-</details>
-
-<details open>
-  <summary>Schema</summary>
-
-| Name | Type |
-| --- | --- |
-|  `@ROOT` | object |
-| &nbsp;&nbsp;&nbsp;&nbsp; `id` | string |
+| &nbsp;&nbsp;&nbsp;&nbsp; `id` | number |
 | &nbsp;&nbsp;&nbsp;&nbsp; `title` | string |
 | &nbsp;&nbsp;&nbsp;&nbsp; `author` | string |
 
@@ -502,7 +424,7 @@ curl "/posts/2" -X GET -H "content-type: application/json"
 <summary><b>cURL</b></summary>
 
 ```sh
-curl "/posts/2" -X PUT -H "content-type: application/json" -d "{\"id\":\"2\",\"title\":\"title 2 updated\",\"author\":\"typicode 2 updated\"}"
+curl "/posts/2" -X PUT -H "content-type: application/json" -d "{\"id\":2,\"title\":\"title 2 updated\",\"author\":\"typicode 2 updated\"}"
 ```
 
 </details>
@@ -518,7 +440,7 @@ curl "/posts/2" -X PUT -H "content-type: application/json" -d "{\"id\":\"2\",\"t
 
 ```json
 {
-  "id": "2"
+  "id": 2
 }
 ```
 
@@ -530,7 +452,7 @@ curl "/posts/2" -X PUT -H "content-type: application/json" -d "{\"id\":\"2\",\"t
 | Name | Type |
 | --- | --- |
 |  `@ROOT` | object |
-| &nbsp;&nbsp;&nbsp;&nbsp; `id` | string |
+| &nbsp;&nbsp;&nbsp;&nbsp; `id` | number |
 
 </details>
 
@@ -542,7 +464,7 @@ curl "/posts/2" -X PUT -H "content-type: application/json" -d "{\"id\":\"2\",\"t
 
 ```json
 {
-  "id": "2",
+  "id": 2,
   "title": "title 2 updated",
   "author": "typicode 2 updated"
 }
@@ -556,7 +478,7 @@ curl "/posts/2" -X PUT -H "content-type: application/json" -d "{\"id\":\"2\",\"t
 | Name | Type |
 | --- | --- |
 |  `@ROOT` | object |
-| &nbsp;&nbsp;&nbsp;&nbsp; `id` | string |
+| &nbsp;&nbsp;&nbsp;&nbsp; `id` | number |
 | &nbsp;&nbsp;&nbsp;&nbsp; `title` | string |
 | &nbsp;&nbsp;&nbsp;&nbsp; `author` | string |
 
@@ -571,7 +493,7 @@ curl "/posts/2" -X PUT -H "content-type: application/json" -d "{\"id\":\"2\",\"t
 
 ```json
 {
-  "id": "2",
+  "id": 2,
   "title": "title 2 updated",
   "author": "typicode 2 updated"
 }
@@ -585,7 +507,7 @@ curl "/posts/2" -X PUT -H "content-type: application/json" -d "{\"id\":\"2\",\"t
 | Name | Type |
 | --- | --- |
 |  `@ROOT` | object |
-| &nbsp;&nbsp;&nbsp;&nbsp; `id` | string |
+| &nbsp;&nbsp;&nbsp;&nbsp; `id` | number |
 | &nbsp;&nbsp;&nbsp;&nbsp; `title` | string |
 | &nbsp;&nbsp;&nbsp;&nbsp; `author` | string |
 
