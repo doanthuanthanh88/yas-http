@@ -1,6 +1,6 @@
 {
   "name": "yas-http",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "description": "Support to send http(s) requests, API document and Http(s) mock server",
   "keywords": [
     "http",
