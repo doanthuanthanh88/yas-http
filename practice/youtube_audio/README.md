@@ -9,7 +9,7 @@ Enter youtube link video to download then convert to a mp3 file
 
 Run in local `yaml-scene`
 ```sh
-  yas https://raw.githubusercontent.com/doanthuanthanh88/yas-http/main/practice/youtube_audio/download_youtube example
+  yas -f https://raw.githubusercontent.com/doanthuanthanh88/yas-http/main/practice/youtube_audio/download_youtube example
 ```
 
 Run via docker
@@ -17,6 +17,7 @@ Run via docker
   docker run --rm -it \
   -v $PWD:/Downloads \
   doanthuanthanh88/yaml-scene \
+  -f \
   https://raw.githubusercontent.com/doanthuanthanh88/yas-http/main/practice/youtube_audio/download_youtube \
   example
 ```

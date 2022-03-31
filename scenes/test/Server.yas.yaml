@@ -1,24 +1,21 @@
-extensions:
-  yas-http: ../../dist
-steps:
-  - yas-http/Server:
-      title: Create mocking API Server
-      host: localhost
-      port: 3000
-      routers: 
-        - path: /posts
-          CRUD: true
-          initData:
-            - id: 1
-              title: title
-              labels: 
-                - news
-                - user
-              creator: 
-                name: thanh
-                created_time: ${Date.now()}
-              tags:
-                - id: 1
-                  name: thanh 1
-                - id: 2
-                  name: thanh 2
+- yas-http/Server:
+    title: Create mocking API Server
+    host: localhost
+    port: 3000
+    routers:
+      - path: /posts
+        CRUD: true
+        initData:
+          - id: 1
+            title: title
+            labels:
+              - news
+              - user
+            creator:
+              name: thanh
+              created_time: ${Date.now()}
+            tags:
+              - id: 1
+                name: thanh 1
+              - id: 2
+                name: thanh 2

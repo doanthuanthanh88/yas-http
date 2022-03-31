@@ -1,0 +1,130 @@
+vars:
+  server: "0.0.0.0"
+  port: 3000
+steps:
+  - Templates:
+      - yas-http/Api:
+          ->: base
+          baseURL: http://${server}:${port}
+
+  - Group:
+      title: Post APIs
+      steps:
+        - yas-http/Get:
+            <-: base
+            title: Get all of posts
+            url: /posts
+            var: posts
+            doc:
+              tags: [POST, RETURNS]
+
+        - yas-http/Post:
+            <-: base
+            title: Create a new post
+            url: /posts
+            body:
+              id: 2
+              title: title 2
+              author: typicode 2
+            var: newOne
+            doc:
+              tags: [POST, ACTIONS]
+
+        - yas-http/Put:
+            <-: base
+            title: Update a post
+            url: /posts/:id
+            params:
+              id: 2
+            body:
+              id: 2
+              title: title 2 updated
+              author: typicode 2 updated
+            var: updatedOne
+            doc:
+              tags: [POST, ACTIONS]
+
+        - yas-http/Get:
+            <-: base
+            title: Get a post details
+            url: /posts/:id
+            params:
+              id: 2
+            var: details
+            doc:
+              tags: [POST, RETURNS]
+
+        - yas-http/Delete:
+            <-: base
+            title: Delete a post
+            url: /posts/:id
+            params:
+              id: 2
+            var:
+              status: ${$.response.status}
+            doc:
+              tags: [POST, ACTIONS]
+
+  - Group:
+      title: User APIs
+      steps:
+        - yas-http/Get:
+            <-: base
+            title: Get all of users
+            url: /users
+            var: users
+            doc:
+              tags: [USER, RETURNS]
+
+        - yas-http/Post:
+            <-: base
+            title: Create a new user
+            url: /users
+            body:
+              id: 2
+              title: title 2
+              author: typicode 2
+            var: newOne
+            doc:
+              tags: [USER, ACTIONS]
+
+        - yas-http/Put:
+            <-: base
+            title: Update a user
+            url: /users/:id
+            params:
+              id: 2
+            body:
+              id: 2
+              title: title 2 updated
+              author: typicode 2 updated
+            var: updatedOne
+            doc:
+              tags: [USER, ACTIONS]
+
+        - yas-http/Get:
+            <-: base
+            title: Get a user details
+            url: /users/:id
+            params:
+              id: 2
+            var: details
+            doc:
+              tags: [USER, RETURNS]
+
+        - yas-http/Delete:
+            <-: base
+            title: Delete a user
+            url: /users/:id
+            params:
+              id: 2
+            var:
+              status: ${$.response.status}
+            doc:
+              tags: [USER, ACTIONS]
+
+  - yas-http/Doc/MD:
+      title: Demo APIs
+      description: Demo Dynamic CRUD API to generate to markdown document
+      signature: "[Doan Thuan Thanh](mailto:doanthuanthanh88@gmail.com)"
+      outFile: ./ApiMD.md

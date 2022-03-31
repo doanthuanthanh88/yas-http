@@ -7,9 +7,9 @@ Upload file to [tmpfiles](https://tmpfiles.org) server
 
 ## How to use
 
-Run via local
+Run in local `yaml-scene`
 ```sh
-yas https://raw.githubusercontent.com/doanthuanthanh88/yas-http/main/practice/upload/tmpfiles example
+yas -f https://raw.githubusercontent.com/doanthuanthanh88/yas-http/main/practice/upload/tmpfiles example
 ```
 
 Run via docker
@@ -18,6 +18,7 @@ docker run --rm -it \
   -w /Uploads \
   -v $PWD:/Uploads \
   doanthuanthanh88/yaml-scene \
+  -f \
   https://raw.githubusercontent.com/doanthuanthanh88/yas-http/main/practice/upload/tmpfiles \
   example
 ```

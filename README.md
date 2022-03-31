@@ -15,8 +15,9 @@ Support to send http(s) requests, API document and Http(s) mock server
 - Generate API document
 
 ## Demo
-1. [Download youtube mp3 file](./practice/youtube_audio/README.md)
-2. [Quick upload file to get a share link](./practice/upload/README.md)
+1. [Create dynamic mock API Server](./practice/dynamic_server/README.md)
+2. [Download youtube mp3 file](./practice/youtube_audio/README.md)
+3. [Quick upload file to get a share link](./practice/upload/README.md)
 
 ## Details document
 > [Wiki Pages](https://github.com/doanthuanthanh88/yas-http/wiki)
