@@ -205,6 +205,9 @@ zsqKxI1xw5qstqlVX3MQR6n8xTfr2Ec6W3lGbtuQ0MEHYbT8
   }
 
   async prepare() {
+    this.title = await this.proxy.getVar(this.title)
+    this.host = await this.proxy.getVar(this.host)
+    this.port = await this.proxy.getVar(this.port)
     this.timeout = await this.proxy.getVar(this.timeout)
     if (this.timeout) {
       this.timeout = TimeUtils.GetMsTime(this.timeout)
