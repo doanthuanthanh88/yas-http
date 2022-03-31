@@ -11,9 +11,10 @@ import merge from "lodash.merge";
 import { ElementFactory } from 'yaml-scene/src/elements/ElementFactory';
 import { ElementProxy } from 'yaml-scene/src/elements/ElementProxy';
 import { IElement } from 'yaml-scene/src/elements/IElement';
-import { TimeUtils } from "yaml-scene/src/utils/TimeUtils"
+import { Scenario } from 'yaml-scene/src/singleton/Scenario';
+import { Functional } from "yaml-scene/src/tags/model/Functional";
+import { TimeUtils } from "yaml-scene/src/utils/TimeUtils";
 import { CRUD } from './CRUD';
-import { Functional } from "yaml-scene/src/tags/model/Functional"
 
 /**
  * @guide
@@ -46,7 +47,7 @@ import { Functional } from "yaml-scene/src/tags/model/Functional"
         uploadTo: ./uploadDir                   # Directory includes uploading files
 
       # Create APIs which auto handle CRUD data
-      - path: '/posts'                          # Request path
+      - path: '/posts'                          # Request static path
         CRUD: true                              # Auto create full RESTful API
                                                 # - GET    /posts            : Return list posts
                                                 # - GET    /posts/:id        : Return post details by id
@@ -54,12 +55,42 @@ import { Functional } from "yaml-scene/src/tags/model/Functional"
                                                 # - PUT    /posts/:id        : Replace entity of post to new post
                                                 # - PATCH  /posts/:id        : Only update some properties of post
                                                 # - DELETE /posts/:id        : Delete a post by id
-        initData: [                             # Init data
+        dbFile: ./db.json                       # Store data to file. This make the next time, when server up will load data from the file.
+                                                # - Empty then it's stateless
+        clean: true                             # Clean db before server up
+        initData: [                             # Init data for request static path (/posts)
           {
             "id": 1,
             "label": "label 01"
           }
         ]
+
+        # Create dynamic APIs which auto handle CRUD data with dynamic model
+      - path: '/:model'                         # Use this pattern to use with dynamic model name
+        CRUD: true                              # Auto create full RESTful API
+                                                # - GET    /modelName            : Return list models
+                                                # - GET    /modelName/:id        : Return model details by id
+                                                # - POST   /modelName            : Create a new model
+                                                # - PUT    /modelName/:id        : Replace entity of post to new model
+                                                # - PATCH  /modelName/:id        : Only update some properties of model
+                                                # - DELETE /modelName/:id        : Delete a model by id
+        dbFile: ./db.json                       # Store data to file. This make the next time, when server up will load data from the file.
+                                                # - Empty then it's stateless
+        clean: true                             # Clean db before server up
+        initData: {                             # Init data for dynamic model name (/:model). 
+                                                # - Only init data when 
+                                                #   + Db file not existed
+                                                #   + OR set "cleaned"
+                                                #   + OR not set dbFile
+          posts: [{                             # When you request /posts, it returns the value
+            "id": 1,
+            "label": "label 01"
+          }],
+          users: [{                             # When you request /users, it returns the value
+            "id": 1,
+            "label": "user 01"
+          }]  
+        }
 
       # Create a API which you can customize response, path....
       - method: GET                             # Request method (POST, PUT, PATCH, DELETE, HEAD)
@@ -162,6 +193,8 @@ zsqKxI1xw5qstqlVX3MQR6n8xTfr2Ec6W3lGbtuQ0MEHYbT8
   } | boolean;
   routers: ({
     CRUD: boolean
+    dbFile: string
+    clean: boolean
     initData?: any[]
     path: string
   } | {
@@ -242,8 +275,8 @@ zsqKxI1xw5qstqlVX3MQR6n8xTfr2Ec6W3lGbtuQ0MEHYbT8
           return next();
         });
       } else if (r.CRUD) {
-        const crud = new CRUD(r.path)
-        if (r.initData) crud.init(...(Array.isArray(r.initData) ? r.initData : [r.initData]))
+        const crud = new CRUD(r.path, Scenario.Instance.resolvePath(r.dbFile), r.clean)
+        if (r.initData) crud.init(r.initData)
         this.routers.splice(this.routers.findIndex(e => e === r), 1, ...crud.routers)
         i--
       } else {

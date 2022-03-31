@@ -257,7 +257,7 @@ Mock API server
         uploadTo: ./uploadDir                   # Directory includes uploading files
 
       # Create APIs which auto handle CRUD data
-      - path: '/posts'                          # Request path
+      - path: '/posts'                          # Request static path
         CRUD: true                              # Auto create full RESTful API
                                                 # - GET    /posts            : Return list posts
                                                 # - GET    /posts/:id        : Return post details by id
@@ -265,12 +265,42 @@ Mock API server
                                                 # - PUT    /posts/:id        : Replace entity of post to new post
                                                 # - PATCH  /posts/:id        : Only update some properties of post
                                                 # - DELETE /posts/:id        : Delete a post by id
-        initData: [                             # Init data
+        dbFile: ./db.json                       # Store data to file. This make the next time, when server up will load data from the file.
+                                                # - Empty then it's stateless
+        clean: true                             # Clean db before server up
+        initData: [                             # Init data for request static path (/posts)
           {
             "id": 1,
             "label": "label 01"
           }
         ]
+
+        # Create dynamic APIs which auto handle CRUD data with dynamic model
+      - path: '/:model'                         # Use this pattern to use with dynamic model name
+        CRUD: true                              # Auto create full RESTful API
+                                                # - GET    /modelName            : Return list models
+                                                # - GET    /modelName/:id        : Return model details by id
+                                                # - POST   /modelName            : Create a new model
+                                                # - PUT    /modelName/:id        : Replace entity of post to new model
+                                                # - PATCH  /modelName/:id        : Only update some properties of model
+                                                # - DELETE /modelName/:id        : Delete a model by id
+        dbFile: ./db.json                       # Store data to file. This make the next time, when server up will load data from the file.
+                                                # - Empty then it's stateless
+        clean: true                             # Clean db before server up
+        initData: {                             # Init data for dynamic model name (/:model). 
+                                                # - Only init data when 
+                                                #   + Db file not existed
+                                                #   + OR set "cleaned"
+                                                #   + OR not set dbFile
+          posts: [{                             # When you request /posts, it returns the value
+            "id": 1,
+            "label": "label 01"
+          }],
+          users: [{                             # When you request /users, it returns the value
+            "id": 1,
+            "label": "user 01"
+          }]  
+        }
 
       # Create a API which you can customize response, path....
       - method: GET                             # Request method (POST, PUT, PATCH, DELETE, HEAD)
