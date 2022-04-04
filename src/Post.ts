@@ -38,7 +38,7 @@ import { Method } from "./Method";
  * @end
  */
 export default class Post extends Api {
-  init(props) {
+  init(props: any) {
     props.method = Method.POST
     super.init(props)
   }

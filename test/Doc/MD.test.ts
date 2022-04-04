@@ -128,4 +128,4 @@ steps:
   const cnt = readFileSync(`${join(__dirname, 'ApiMD.md')}`).toString()
   expect(cnt).toContain('Get a post details')
   expect(cnt).not.toContain('This is not documented')
-}, 60000)
+})

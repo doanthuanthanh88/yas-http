@@ -17,7 +17,9 @@ import { TimeUtils } from "yaml-scene/src/utils/TimeUtils"
  * @end
  */
 export default class Summary implements IElement {
-  proxy: ElementProxy<Summary>
+  proxy: ElementProxy<this>
+  $$: IElement
+  $: this
 
   title: string
 

@@ -27,7 +27,7 @@ import { Method } from "./Method";
  * @end
  */
 export default class Head extends Api {
-  init(props) {
+  init(props: any) {
     props.method = Method.HEAD
     super.init(props)
   }

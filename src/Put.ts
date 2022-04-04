@@ -38,7 +38,7 @@ import { Method } from "./Method";
  * @end
  */
 export default class Put extends Api {
-  init(props) {
+  init(props: any) {
     props.method = Method.PUT
     super.init(props)
   }

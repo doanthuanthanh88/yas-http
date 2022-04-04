@@ -160,12 +160,12 @@ Create mock API Server without code
         dbFile: ./db.json                       # Store data to file. This make the next time, when server up will load data from the file.
                                                 # - Empty then it's stateless
         clean: true                             # Clean db before server up
-                                                # - GET    /modelName            : Return list models
-                                                # - GET    /modelName/:id        : Return model details by id
-                                                # - POST   /modelName            : Create a new model
-                                                # - PUT    /modelName/:id        : Replace entity of post to new model
-                                                # - PATCH  /modelName/:id        : Only update some properties of model
-                                                # - DELETE /modelName/:id        : Delete a model by id
+                                                # - GET    /model            : Return list models
+                                                # - GET    /model/:id        : Return model details by id
+                                                # - POST   /model            : Create a new model
+                                                # - PUT    /model/:id        : Replace entity of post to new model
+                                                # - PATCH  /model/:id        : Only update some properties of model
+                                                # - DELETE /model/:id        : Delete a model by id
         initData: {                             # Init data for dynamic model name (/:model). 
                                                 # - Only init data when 
                                                 #   + Db file not existed
@@ -192,8 +192,7 @@ Create mock API Server without code
         path: /posts/:id                        # Request path
         handler: !function |                              # Handle code which handle request and response data
           /** Some vars can used in code
-           * _: this.proxy, 
-           * __: this, 
+           * $: this.proxy, 
            * params: Request params
            * headers: Request headers
            * query: Request query string

@@ -1,10 +1,10 @@
 import Api from '@app/Api';
-import { IFileAdapter } from 'yaml-scene/src/elements/File/adapter/IFileAdapter';
-import { Exporter as IExporter } from 'yaml-scene/src/utils/doc/Exporter';
 import omit from 'lodash.omit';
 import { escape } from 'querystring';
-import MD from './MD';
+import { IFileAdapter } from 'yaml-scene/src/elements/File/adapter/IFileAdapter';
 import { Scenario } from 'yaml-scene/src/singleton/Scenario';
+import { Exporter as IExporter } from 'yaml-scene/src/utils/doc/Exporter';
+import MD from './MD';
 
 export class Exporter implements IExporter<Api> {
   readonly ignoreRequestHeaders = ['content-type']
@@ -28,9 +28,9 @@ export class Exporter implements IExporter<Api> {
   constructor(private writer: IFileAdapter, public md: MD) {
   }
 
-  export(apis: Api[]) {
+  async export(apis: Api[]) {
     const mdMenu = [`# ${this.md.title || Scenario.Instance.title}`, `${this.md.description || Scenario.Instance.description || ''}`];
-    const mdDetails = [];
+    const mdDetails = [] as string[];
 
     if (this.md.signature) {
       mdMenu.push(`> Developed by ${this.md.signature}  `)
@@ -46,7 +46,7 @@ export class Exporter implements IExporter<Api> {
         tags[tagName].push(api)
       })
       return tags
-    }, {})
+    }, {} as { [key: string]: Api[] })
 
     Object.keys(tags).sort().forEach(tagName => {
       mdMenu.push(`| |${tagName.trim()} (${tags[tagName].length}) | |`)
@@ -211,14 +211,14 @@ ${this.objectToMDType(api.response.data)}
 
     })
 
-    this.writer.write([...mdMenu, '  ', ...mdDetails, '  '].join('\n'));
+    await this.writer.write([...mdMenu, '  ', ...mdDetails, '  '].join('\n'));
   }
 
-  private objectToMDType(obj) {
+  private objectToMDType(obj: any) {
     const md = []
     md.push(`| Name | Type |`)
     md.push(`| --- | --- |`)
-    this.objectToTypes({ '@ROOT': obj }).forEach(info => {
+    this.objectToTypes({ '@ROOT': obj }).forEach((info: any) => {
       md.push(...this.toMDString(info))
     })
     return md.length > 2 ? md.join('\n') : ''
@@ -228,7 +228,7 @@ ${this.objectToMDType(api.response.data)}
     const md = []
     md.push(`| ${info.space} \`${info.name}\` | ${Array.from(info.types).join(', ')} |`)
     if (info.childs.length) {
-      info.childs.forEach(child => {
+      info.childs.forEach((child: any) => {
         md.push(...this.toMDString(child))
       })
     }
@@ -237,7 +237,7 @@ ${this.objectToMDType(api.response.data)}
 
   private objectToTypes(obj: any, space = '') {
     if (Array.isArray(obj)) {
-      const arr = []
+      const arr = [] as any[]
       obj.forEach(o => {
         arr.push(...this.objectToTypes(o, space))
       })

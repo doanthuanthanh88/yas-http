@@ -38,7 +38,7 @@ import { Method } from "./Method";
  * @end
  */
 export default class Patch extends Api {
-  init(props) {
+  init(props: any) {
     props.method = Method.PATCH
     super.init(props)
   }

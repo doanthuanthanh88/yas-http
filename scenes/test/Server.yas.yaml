@@ -1,21 +1,60 @@
-- yas-http/Server:
-    title: Create mocking API Server
-    host: localhost
-    port: 3000
-    routers:
-      - path: /posts
-        CRUD: true
-        initData:
-          - id: 1
-            title: title
-            labels:
-              - news
-              - user
-            creator:
-              name: thanh
-              created_time: ${Date.now()}
-            tags:
-              - id: 1
-                name: thanh 1
-              - id: 2
-                name: thanh 2
+logLevel: debug
+steps:
+  - yas-http/Server:
+      title: Mock http request
+      port: 3000
+      routers:
+        - serveIn: ./assets/upload
+        - path: /upload
+          uploadTo: ./assets/upload
+        - method: GET
+          path: /posts
+          response:
+            status: 200
+            statusMessage: OK
+            headers:
+              server: nginx
+            data: [{ "id": 1, "title": "title", "author": "typicode" }]
+        - method: GET
+          path: /posts/:id
+          handler: !function |
+            headers.server = 'nginx'
+            ctx.status = 200
+            ctx.statusMessage = 'OK'
+
+            return {
+              "id": 1, 
+              "title": "title updated", 
+              "author": "typicode" 
+            }
+        - method: POST
+          path: /posts
+          response:
+            status: 200
+            statusMessage: OK
+            headers:
+              server: nginx
+            data: { "id": 2, "title": "title", "author": "typicode" }
+        - method: PUT
+          path: /posts/:id
+          response:
+            status: 200
+            statusMessage: OK
+            headers:
+              server: nginx
+            data: { "id": 2, "title": "title updated", "author": "typicode" }
+        - method: PATCH
+          path: /posts/:id
+          response:
+            status: 200
+            statusMessage: OK
+            headers:
+              server: nginx
+            data: { "id": 2, "title": "title updated", "author": "typicode" }
+        - method: DELETE
+          path: /posts/:id
+          response:
+            status: 200
+            statusMessage: OK
+            headers:
+              server: nginx

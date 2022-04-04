@@ -27,7 +27,7 @@ import { Method } from "./Method";
  * @end
  */
 export default class Delete extends Api {
-  init(props) {
+  init(props: any) {
     props.method = Method.DELETE
     super.init(props)
   }

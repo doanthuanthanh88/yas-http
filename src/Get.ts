@@ -28,7 +28,7 @@ import { Method } from "./Method";
  * @end 
  */
 export default class Get extends Api {
-  init(props) {
+  init(props: any) {
     props.method = Method.GET
     super.init(props)
   }

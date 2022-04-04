@@ -19,7 +19,7 @@ steps:
       steps:
         - yas-http/Server:
             async: true
-            timeout: 20s
+            timeout: 5s
             title: Mock http request
             port: ${port}
             routers:
@@ -125,7 +125,10 @@ steps:
               - yas-http/Get:
                   <-: base
                   title: Get a post details
-                  url: /posts/:id
+                  url: /posts/:id?a=10
+                  query:
+                    a: 11
+                    b: 20
                   params:
                     id: 2
                   var: details
@@ -158,13 +161,14 @@ steps:
 
               - yas-http/Get:
                   <-: base
+                  baseURL: ""
                   title: Get a static file
-                  url: /test1.txt
+                  url: http://localhost:${port}/test1.txt
                   var: staticFile
         - yas-http/Summary:
             title: API Summary
   `)
-  }, 60000)
+  })
 
   test('Get all of posts', () => {
     expect(VariableManager.Instance.vars.posts).toHaveLength(1)

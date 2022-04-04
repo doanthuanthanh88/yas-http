@@ -18,7 +18,7 @@ steps:
       steps:
         - yas-http/Server:
             async: true
-            timeout: 20s
+            timeout: 5s
             title: Mock http request
             port: ${port}
             routers:
@@ -165,7 +165,7 @@ steps:
         - yas-http/Summary:
             title: API Summary
   `)
-  }, 60000)
+  })
 
   test('Get all of posts', () => {
     expect(VariableManager.Instance.vars.posts).toHaveLength(1)

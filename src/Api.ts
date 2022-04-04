@@ -1,30 +1,19 @@
 import Axios from "axios"
 import chalk from "chalk"
 import { CurlGenerator } from 'curl-generator'
-import FormData from 'form-data'
 import { createWriteStream } from "fs"
 import { Agent } from 'http'
 import { Agent as Agents } from 'https'
 import merge from "lodash.merge"
-import { stringify } from 'querystring'
+import { parse, stringify } from 'querystring'
 import { ElementFactory } from "yaml-scene/src/elements/ElementFactory"
 import { ElementProxy } from "yaml-scene/src/elements/ElementProxy"
 import { IElement } from "yaml-scene/src/elements/IElement"
 import Validate from "yaml-scene/src/elements/Validate"
-import { LoggerManager } from 'yaml-scene/src/singleton/LoggerManager'
 import { Scenario } from 'yaml-scene/src/singleton/Scenario'
+import { LazyImport } from 'yaml-scene/src/utils/LazyImport'
 import { TimeUtils } from "yaml-scene/src/utils/TimeUtils"
-import { ProgressBar } from "./libs/progress-bar/ProgressBar"
-import { ReaderProgressBar } from "./libs/progress-bar/ReaderProgressBar"
 import { Method } from "./Method"
-// process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
-
-// axios.interceptors.request.use(function (config) {
-//   // @ts-ignore
-//   const urlParams = config['urlParams']
-//   config.url = VarManager.Instance.get(config.url.replace(/(\:(\w+))/g, `$\{urlParams.$2\}`), { urlParams })
-//   return config
-// })
 
 /**
  * @guide
@@ -67,9 +56,9 @@ import { Method } from "./Method"
  * @end
  */
 export default class Api implements IElement {
-  proxy: ElementProxy<Api>
-  $$: IElement;
-  $: this;
+  proxy: ElementProxy<this>
+  $$: IElement
+  $: this
 
   title: string
   description: string
@@ -85,12 +74,15 @@ export default class Api implements IElement {
   headers: any
   body: any
   response: any
+
   error: any
   time: number
   var: any
   validate: ElementProxy<Validate>[]
   saveTo: string
   fullUrl: string
+
+  private _controller: AbortController
 
   get contentType() {
     return this.headers['content-type'] || this.headers['Content-Type']
@@ -118,7 +110,7 @@ export default class Api implements IElement {
     }
     merge(this, { method: Method.GET }, {
       ...props,
-      validate: props.validate?.map(v => {
+      validate: props.validate?.map((v: any) => {
         const _v = ElementFactory.CreateElement<Validate>('Validate')
         _v.changeLogLevel(props.logLevel)
         _v.init(v)
@@ -128,29 +120,30 @@ export default class Api implements IElement {
   }
 
   async prepare() {
-    this.title = await this.proxy.getVar(this.title)
-    this.description = await this.proxy.getVar(this.description)
-    this.baseURL = await this.proxy.getVar(this.baseURL) || ''
-    this.timeout = await this.proxy.getVar(this.timeout)
-    if (this.timeout) {
-      this.timeout = TimeUtils.GetMsTime(this.timeout)
+    await this.proxy.applyVars(this, 'title', 'description', 'baseURL', 'timeout', 'url', 'params', 'query', 'headers', 'body', 'saveTo', 'doc')
+    if (this.url.includes('?')) {
+      const [rawUrl, qr = ''] = this.url.split('?')
+      this.url = rawUrl
+      const qrObject = this.proxy.getVar(parse(qr))
+      this.query = merge({}, qrObject, this.query)
     }
-    this.url = await this.proxy.getVar(this.url)
-    this.params = await this.proxy.getVar(this.params) || {}
-    this.query = await this.proxy.getVar(this.query) || {}
-    this.headers = await this.proxy.getVar(this.headers) || {}
-    this.body = await this.proxy.getVar(this.body)
-    this.fullUrl = await this.proxy.getVar(this.url.replace(/(\:(\w+))/g, `$\{urlParams.$2\}`), { urlParams: this.params })
-    this.saveTo = await this.proxy.getVar(this.saveTo)
-    if (this.saveTo) {
-      this.saveTo = this.proxy.resolvePath(this.saveTo)
-    }
-    this.validate?.forEach(v => {
-      v.element['$'] = this.$
-      v.element['$$'] = this.$$
-    })
+    if (this.timeout) this.timeout = TimeUtils.GetMsTime(this.timeout)
+    if (!this.baseURL) this.baseURL = ''
+    if (!this.params) this.params = {}
+    if (!this.query) this.query = {}
+    if (!this.headers) this.headers = {}
     if (!this.headers['content-type']) this.headers['content-type'] = 'application/json'
-    this.doc = await this.proxy.getVar(this.doc)
+    if (!this.baseURL) {
+      const _url = new URL(this.url)
+      this.fullUrl = await this.proxy.getVar(_url.origin + _url.pathname.replace(/(\:(\w+))/g, `$\{urlParams.$2\}`), { urlParams: this.params })
+    } else {
+      this.fullUrl = await this.proxy.getVar(this.url.replace(/(\:(\w+))/g, `$\{urlParams.$2\}`), { urlParams: this.params })
+    }
+    if (this.saveTo) this.saveTo = this.proxy.resolvePath(this.saveTo)
+    this.validate?.forEach(v => {
+      v.element.$ = this.$
+      v.element.$$ = this.$$
+    })
   }
 
   async exec() {
@@ -159,15 +152,11 @@ export default class Api implements IElement {
       this.proxy.logger.info(chalk.cyan.bold('‣', this.title), chalk.gray('-', `${this.method} ${this.url}`))
       console.group()
       this.time = Date.now()
-      const axios = Axios.create({
-        maxRedirects: Number.MAX_SAFE_INTEGER,
-        withCredentials: true,
-        httpAgent: new Agent(),
-        httpsAgent: new Agents(),
-        timeout: this.timeout
-
-      })
-      let { status, statusText, headers: responseHeaders, data } = await axios.request({
+      this._controller = new AbortController()
+      let { status, statusText, headers: responseHeaders, data } = await Axios.create({
+        signal: this._controller.signal,
+      }).request({
+        timeout: this.timeout,
         responseType: this.saveTo ? 'stream' : undefined,
         method,
         baseURL,
@@ -185,14 +174,16 @@ export default class Api implements IElement {
               return data
             }
             if (this.contentType?.includes('multipart/form-data')) {
+              const { default: FormData } = await LazyImport(import('form-data'))
               const data = new FormData()
               for (let k in body) {
                 data.append(k, body[k])
               }
               merge(this.headers, data.getHeaders())
+              const [{ ProgressBar }, { ReaderProgressBar }] = await Promise.all([LazyImport(import("./libs/progress-bar/ProgressBar")), LazyImport(import("./libs/progress-bar/ReaderProgressBar"))])
               const progressBar = new ProgressBar('Upload Progress || {bar} | {percentage}% || {value}/{total} bytes || Speed: {speed}')
               progressBar.total = await new Promise<number>((resolve, reject) => {
-                data.getLength((err, len) => {
+                data.getLength((err: Error, len: number) => {
                   if (err) return reject(err)
                   resolve(len)
                 })
@@ -205,6 +196,7 @@ export default class Api implements IElement {
         })(),
       } as any)
       if (this.saveTo) {
+        const [{ ProgressBar }, { ReaderProgressBar }] = await Promise.all([LazyImport(import("./libs/progress-bar/ProgressBar")), LazyImport(import("./libs/progress-bar/ReaderProgressBar"))])
         new ReaderProgressBar(data, `Dowloaded {value} bytes`, new ProgressBar('Download Progress || {value} bytes || Speed: {speed}'))
         await new Promise((resolve, reject) => {
           const writer = createWriteStream(this.saveTo)
@@ -222,7 +214,7 @@ export default class Api implements IElement {
         headers: responseHeaders,
         data
       }
-    } catch (err) {
+    } catch (err: any) {
       this.time = Date.now() - this.time
       this.error = err
       if (err.response) {
@@ -235,35 +227,47 @@ export default class Api implements IElement {
         }
       }
     } finally {
-      if (this.response) {
-        this.proxy.logger.info('%s %s', chalk[this.error ? 'red' : 'green'](`${this.response.status} ${this.response.statusText}`), chalk.gray(` (${this.time}ms)`))
-        try {
-          await this.validateAPI()
-          this.error = undefined
-          await this.applyToVar()
-        } catch (err) {
-          this.error = err
-          this.proxy.changeLogLevel('debug')
+      if (!Axios.isCancel(this.error)) {
+        if (this.response) {
+          this.proxy.logger.info('%s %s', chalk[this.error ? 'red' : 'green'](`${this.response.status} ${this.response.statusText}`), chalk.gray(` (${this.time}ms)`))
+          try {
+            await this.validateAPI()
+            this.error = undefined
+            await this.applyToVar()
+          } catch (err) {
+            this.error = err
+            this.proxy.changeLogLevel('debug')
+          }
         }
-      }
-      this.printLog()
-      if (this.error) {
-        Scenario.Instance.events.emit('api.done', false, this)
-        throw this.error
-      } else {
-        Scenario.Instance.events.emit('api.done', true, this)
+        this.printLog()
+        if (this.error) {
+          Scenario.Instance.events.emit('api.done', false, this)
+          throw this.error
+        } else {
+          Scenario.Instance.events.emit('api.done', true, this)
+        }
       }
       console.groupEnd()
     }
   }
 
+  async dispose() {
+    if (this.validate?.length) await Promise.all(this.validate.map(v => v.dispose()))
+    this.cancel()
+  }
+
+  cancel() {
+    this._controller?.abort()
+  }
+
   private printLog() {
-    if (this.proxy.logger.getLevel() <= LoggerManager.LogLevel.TRACE) {
+    if (this.proxy.logger.is('debug')) {
       console.group()
-      this.proxy.logger.debug(`%s`, chalk.red.underline(this.curl))
+      this.proxy.logger.debug(chalk.magenta.underline.bold(this.curl))
       let fullUrl = `${this.baseURL}${this.fullUrl}`
-      if (Object.keys(this.query).length) fullUrl += '?' + stringify(this.query, null, null, { encodeURIComponent: str => str })
-      this.proxy.logger.debug('%s', chalk.red.bold('* Request * * * * * * * * * *'))
+      if (Object.keys(this.query).length) fullUrl += '?' + stringify(this.query, undefined, undefined, { encodeURIComponent: str => str })
+      this.proxy.logger.debug('')
+      this.proxy.logger.debug(chalk.bgMagenta.white(' Request '))
       console.group()
       this.proxy.logger.debug('%s: %s', chalk.magenta('* Method'), this.method)
       this.proxy.logger.debug('%s: %s', chalk.magenta('* URL'), fullUrl)
@@ -281,7 +285,9 @@ export default class Api implements IElement {
         this.proxy.logger.debug(this.body)
       }
       console.groupEnd()
-      this.proxy.logger.debug('%s', chalk.red.bold('* Response * * * * * * * * * *'))
+
+      this.proxy.logger.debug('')
+      this.proxy.logger.debug(chalk.bgMagenta.white(' Response '))
       const res = this.response
       if (res) {
         console.group()
@@ -321,3 +327,11 @@ export default class Api implements IElement {
   }
 
 }
+
+(() => {
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
+  Axios.defaults.maxRedirects = Number.MAX_SAFE_INTEGER
+  Axios.defaults.withCredentials = true
+  Axios.defaults.httpAgent = new Agent()
+  Axios.defaults.httpsAgent = new Agents()
+})()
