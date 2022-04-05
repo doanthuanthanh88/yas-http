@@ -17,12 +17,15 @@ Run in local `yaml-scene`
 
 Run via docker
 ```sh
-  docker run --rm -it \
+  docker run --rm -it --name mock-api-server \
   -v $PWD:/Downloads \
+  -p 3000:3000 \
   doanthuanthanh88/yaml-scene \
   -f \
   https://raw.githubusercontent.com/doanthuanthanh88/yas-http/main/practice/dynamic_server/Server.yaml
 ```
+
+- After done, the link "http://0.0.0.0:3000/whatever" is availabed
 
 ### `Make clients call to mock API server`
 
@@ -33,12 +36,10 @@ Run in local `yaml-scene`
 
 Run via docker
 ```sh
-  docker run --rm -it \
+  docker run --rm -it --link mock-api-server --name mock-api-client \
   -v $PWD:/Downloads \
-  -e SERVER=$IP_DOCKER_MOCK_API_SERVER
+  -e SERVER=mock-api-server \
   doanthuanthanh88/yaml-scene \
   -f \
   https://raw.githubusercontent.com/doanthuanthanh88/yas-http/main/practice/dynamic_server/Client.yaml
 ```
-
-> Replace `$IP_DOCKER_MOCK_API_SERVER` to IP of mock api server docker
