@@ -15,6 +15,12 @@ import { LazyImport } from 'yaml-scene/src/utils/LazyImport'
 import { TimeUtils } from "yaml-scene/src/utils/TimeUtils"
 import { Method } from "./Method"
 
+// process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
+Axios.defaults.maxRedirects = Number.MAX_SAFE_INTEGER
+Axios.defaults.withCredentials = true
+Axios.defaults.httpAgent = new Agent()
+Axios.defaults.httpsAgent = new Agents()
+
 /**
  * @guide
  * @name yas-http/Api
@@ -81,6 +87,7 @@ export default class Api implements IElement {
   validate: ElementProxy<Validate>[]
   saveTo: string
   fullUrl: string
+  config: any
 
   private _controller: AbortController
 
@@ -158,6 +165,7 @@ export default class Api implements IElement {
       }).request({
         timeout: this.timeout,
         responseType: this.saveTo ? 'stream' : undefined,
+        ...this.config,
         method,
         baseURL,
         url: this.fullUrl,
@@ -327,11 +335,3 @@ export default class Api implements IElement {
   }
 
 }
-
-(() => {
-  process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
-  Axios.defaults.maxRedirects = Number.MAX_SAFE_INTEGER
-  Axios.defaults.withCredentials = true
-  Axios.defaults.httpAgent = new Agent()
-  Axios.defaults.httpsAgent = new Agents()
-})()
