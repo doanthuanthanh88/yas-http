@@ -140,6 +140,10 @@
             "/users"
           ]
         },
+        "config": {
+          "$ref": "#/definitions/getVarObjectString",
+          "description": "Request config"
+        },
         "params": {
           "$ref": "#/definitions/getVarObjectString",
           "description": "Request params. (In the example, url is '/product/1')"

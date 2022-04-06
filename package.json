@@ -1,6 +1,6 @@
 {
   "name": "yas-http",
-  "version": "1.1.5",
+  "version": "1.1.6-alpha.1",
   "description": "Support to send http(s) requests, API document and Http(s) mock server",
   "keywords": [
     "http",
@@ -12,9 +12,9 @@
   ],
   "scripts": {
     "install:dist": "yarn install --production --modules-folder ./dist/node_modules",
-    "dev": "npx nodemon --watch src --watch test --ext .ts --exec 'node -r ts-node/register -r ./bin/tsconfig-paths-bootstrap.js --inspect-brk src/index.ts'",
-    "test": "npx jest --runInBand",
-    "test:debug": "npx --node-options=\"--inspect-brk\" jest --runInBand",
+    "dev": "ts-node-dev --clear --rs --project tsconfig.json --ignore-watch [.*] --respawn --transpile-only -r tsconfig-paths/register --inspect-brk -- src/index.ts",
+    "test": "jest",
+    "test:debug": "node --inspect-brk node_modules/.bin/jest",
     "doc": "npx yaml-scene scenes/guide.yas.yaml",
     "prebuild": "yarn clean",
     "lint": "tsc --project tsconfig.lint.json",
@@ -22,7 +22,7 @@
     "postbuild": "node bin/tsconfig && node bin/update_package",
     "clean": "rm -rf dist",
     "prenewtag": "yarn test && yarn build",
-    "newtag": "npx yaml-scene ./scenes/version.yas.yaml",
+    "newtag": "npx yaml-scene scenes/version.yas.yaml",
     "postnewtag": "yarn clean"
   },
   "preferGlobal": true,
@@ -44,7 +44,7 @@
     "lodash.omit": "^4.5.0"
   },
   "peerDependencies": {
-    "yaml-scene": "^1.1.10"
+    "yaml-scene": "^1.1.11"
   },
   "devDependencies": {
     "@types/cli-progress": "^3.9.2",
@@ -62,10 +62,11 @@
     "jest": "^27.5.1",
     "koa-static": "^5.0.0",
     "ts-jest": "^27.1.4",
-    "ts-node": "^9.1.1",
+    "ts-node-dev": "^1.1.8",
+    "tsconfig-paths": "^3.14.1",
     "typescript": "^4.3.5",
     "weak-napi": "^2.0.2",
-    "yaml-scene": "^1.1.10"
+    "yaml-scene": "^1.1.11"
   },
   "author": {
     "name": "Đoàn Thuận Thành",
