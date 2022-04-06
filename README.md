@@ -14,10 +14,10 @@ Support to send http(s) requests, API document and Http(s) mock server
   - Build router for yourself by code
 - Generate API document
 
-## Demo
-1. [Create dynamic mock API Server](./practice/dynamic_server/README.md)
-2. [Download youtube mp3 file](./practice/youtube_audio/README.md)
-3. [Quick upload file to get a share link](./practice/upload/README.md)
+## Sharing
+1. [Create dynamic mock API Server](./sharing/dynamic_server/README.md)
+2. [Download youtube mp3 file](./sharing/youtube_audio/README.md)
+3. [Quick upload file to get a share link](./sharing/upload/README.md)
 
 ## Details document
 > [Wiki Pages](https://github.com/doanthuanthanh88/yas-http/wiki)

@@ -12,7 +12,7 @@ Mock data to serve to clients
 
 Run in local `yaml-scene`
 ```sh
-  yas -f https://raw.githubusercontent.com/doanthuanthanh88/yas-http/main/practice/dynamic_server/Server.yaml
+  yas -f https://raw.githubusercontent.com/doanthuanthanh88/yas-http/main/sharing/dynamic_server/Server.yaml
 ```
 
 Run via docker
@@ -22,7 +22,7 @@ Run via docker
   -p 3000:3000 \
   doanthuanthanh88/yaml-scene \
   -f \
-  https://raw.githubusercontent.com/doanthuanthanh88/yas-http/main/practice/dynamic_server/Server.yaml
+  https://raw.githubusercontent.com/doanthuanthanh88/yas-http/main/sharing/dynamic_server/Server.yaml
 ```
 
 - After done, the link "http://0.0.0.0:3000/whatever" is availabed
@@ -31,7 +31,7 @@ Run via docker
 
 Run in local `yaml-scene`
 ```sh
-  yas -f https://raw.githubusercontent.com/doanthuanthanh88/yas-http/main/practice/dynamic_server/Client.yaml
+  yas -f https://raw.githubusercontent.com/doanthuanthanh88/yas-http/main/sharing/dynamic_server/Client.yaml
 ```
 
 Run via docker
@@ -41,5 +41,5 @@ Run via docker
   -e SERVER=mock-api-server \
   doanthuanthanh88/yaml-scene \
   -f \
-  https://raw.githubusercontent.com/doanthuanthanh88/yas-http/main/practice/dynamic_server/Client.yaml
+  https://raw.githubusercontent.com/doanthuanthanh88/yas-http/main/sharing/dynamic_server/Client.yaml
 ```

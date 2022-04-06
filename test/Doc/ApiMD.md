@@ -1,30 +1,31 @@
 # Post service
 Demo CRUD API to generate to markdown document
 > Developed by [Doan Thuan Thanh](mailto:doanthuanthanh88@gmail.com)  
-> Updated at 4/4/2022, 10:49:10 AM  
+> Updated at 4/6/2022, 9:25:41 AM  
 
 | | Title (6) | URL |  
 |---|---|---|  
 | |DEFAULT (1) | |
-|**1**|[This is documented by default tag](#This%20is%20documented%20by%20default%20tag)| `GET` /posts/:id|  
+|**1**|[This is documented by default tag](#user-content-this%20is%20documented%20by%20default%20tag)| `GET` /posts/:id|  
 | |ACTIONS (3) | |
-|**1**|[Create a new post](#Create%20a%20new%20post)| `POST` /posts|  
-|**2**|[Delete a post](#Delete%20a%20post)| `DELETE` /posts/:id|  
-|**3**|[Update a post](#Update%20a%20post)| `PUT` /posts/:id|  
+|**1**|[Create a new post](#user-content-create%20a%20new%20post)| `POST` /posts|  
+|**2**|[Delete a post](#user-content-delete%20a%20post)| `DELETE` /posts/:id|  
+|**3**|[Update a post](#user-content-update%20a%20post)| `PUT` /posts/:id|  
 | |POST (5) | |
-|**1**|[Create a new post](#Create%20a%20new%20post)| `POST` /posts|  
-|**2**|[Delete a post](#Delete%20a%20post)| `DELETE` /posts/:id|  
-|**3**|[Get a post details](#Get%20a%20post%20details)| `GET` /posts/:id|  
-|**4**|[Get all of posts](#Get%20all%20of%20posts)| `GET` /posts|  
-|**5**|[Update a post](#Update%20a%20post)| `PUT` /posts/:id|  
+|**1**|[Create a new post](#user-content-create%20a%20new%20post)| `POST` /posts|  
+|**2**|[Delete a post](#user-content-delete%20a%20post)| `DELETE` /posts/:id|  
+|**3**|[Get a post details](#user-content-get%20a%20post%20details)| `GET` /posts/:id|  
+|**4**|[Get all of posts](#user-content-get%20all%20of%20posts)| `GET` /posts|  
+|**5**|[Update a post](#user-content-update%20a%20post)| `PUT` /posts/:id|  
 | |RETURNS (2) | |
-|**1**|[Get a post details](#Get%20a%20post%20details)| `GET` /posts/:id|  
-|**2**|[Get all of posts](#Get%20all%20of%20posts)| `GET` /posts|  
+|**1**|[Get a post details](#user-content-get%20a%20post%20details)| `GET` /posts/:id|  
+|**2**|[Get all of posts](#user-content-get%20all%20of%20posts)| `GET` /posts|  
   
 
 ---
 
-## [Create a new post](#) <a name="Create%20a%20new%20post"></a>
+<a id="user-content-create%20a%20new%20post" name="user-content-create%20a%20new%20post"></a>
+## [Create a new post](#)
 
 
 
@@ -107,7 +108,8 @@ curl "/posts" -X POST -H "content-type: application/json" -d "{\"id\":2,\"title\
 
 ---
 
-## [Delete a post](#) <a name="Delete%20a%20post"></a>
+<a id="user-content-delete%20a%20post" name="user-content-delete%20a%20post"></a>
+## [Delete a post](#)
 
 
 
@@ -177,7 +179,8 @@ curl "/posts/2" -X DELETE -H "content-type: application/json"
 
 ---
 
-## [Get a post details](#) <a name="Get%20a%20post%20details"></a>
+<a id="user-content-get%20a%20post%20details" name="user-content-get%20a%20post%20details"></a>
+## [Get a post details](#)
 
 
 
@@ -254,7 +257,8 @@ curl "/posts/2" -X GET -H "content-type: application/json"
 
 ---
 
-## [Get all of posts](#) <a name="Get%20all%20of%20posts"></a>
+<a id="user-content-get%20all%20of%20posts" name="user-content-get%20all%20of%20posts"></a>
+## [Get all of posts](#)
 
 
 
@@ -295,7 +299,7 @@ curl "/posts" -X GET -H "content-type: application/json"
     ],
     "creator": {
       "name": "thanh",
-      "created_time": 1649069343361
+      "created_time": 1649237134587
     },
     "tags": [
       {
@@ -334,7 +338,8 @@ curl "/posts" -X GET -H "content-type: application/json"
 
 ---
 
-## [This is documented by default tag](#) <a name="This%20is%20documented%20by%20default%20tag"></a>
+<a id="user-content-this%20is%20documented%20by%20default%20tag" name="user-content-this%20is%20documented%20by%20default%20tag"></a>
+## [This is documented by default tag](#)
 
 
 
@@ -411,7 +416,8 @@ curl "/posts/2" -X GET -H "content-type: application/json"
 
 ---
 
-## [Update a post](#) <a name="Update%20a%20post"></a>
+<a id="user-content-update%20a%20post" name="user-content-update%20a%20post"></a>
+## [Update a post](#)
 
 
 

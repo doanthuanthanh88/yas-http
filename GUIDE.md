@@ -3,23 +3,24 @@
 | Element | Description |  
 |---|---|  
 | API | --- |
-|[yas-http/Api](#Api%2Fyas-http%2FApi)| Send a request via http with custom method ...|  
-|[yas-http/Delete](#Api%2Fyas-http%2FDelete)| Send a DELETE request via http ...|  
-|[yas-http/Get](#Api%2Fyas-http%2FGet)| Send a GET request via http ...|  
-|[yas-http/Patch](#Api%2Fyas-http%2FPatch)| Send a Patch request via http ...|  
-|[yas-http/Post](#Api%2Fyas-http%2FPost)| Send a Post request via http ...|  
-|[yas-http/Put](#Api%2Fyas-http%2FPut)| Send a Put request via http ...|  
-|[yas-http/Head](#Api%2Fyas-http%2FHead)| Send a Head request via http ...|  
-|[yas-http/Server](#Api%2Fyas-http%2FServer)| Mock API server ...|  
-|[yas-http/Doc/MD](#Doc%2C%20Api%2Fyas-http%2FDoc%2FMD)| Document api to markdown format ...|  
-|[yas-http/Summary](#Api%2Fyas-http%2FSummary)| Summary after all of apis in scene executed done. (It's should be the last step) ...|  
+|[yas-http/Api](#user-content-api-yas-http%2fapi)| Send a request via http with custom method ...|  
+|[yas-http/Delete](#user-content-api-yas-http%2fdelete)| Send a DELETE request via http ...|  
+|[yas-http/Get](#user-content-api-yas-http%2fget)| Send a GET request via http ...|  
+|[yas-http/Patch](#user-content-api-yas-http%2fpatch)| Send a Patch request via http ...|  
+|[yas-http/Post](#user-content-api-yas-http%2fpost)| Send a Post request via http ...|  
+|[yas-http/Put](#user-content-api-yas-http%2fput)| Send a Put request via http ...|  
+|[yas-http/Head](#user-content-api-yas-http%2fhead)| Send a Head request via http ...|  
+|[yas-http/Server](#user-content-api-yas-http%2fserver)| Mock API server ...|  
+|[yas-http/Doc/MD](#user-content-doc%2c%20api-yas-http%2fdoc%2fmd)| Document api to markdown format ...|  
+|[yas-http/Summary](#user-content-api-yas-http%2fsummary)| Summary after all of apis in scene executed done. (It's should be the last step) ...|  
 | DOC | --- |
-|[yas-http/Doc/MD](#Doc%2C%20Api%2Fyas-http%2FDoc%2FMD)| Document api to markdown format ...|  
+|[yas-http/Doc/MD](#user-content-doc%2c%20api-yas-http%2fdoc%2fmd)| Document api to markdown format ...|  
   
   
 # Details
-## yas-http/Api <a name="Api%2Fyas-http%2FApi"></a>  
-`(Api)`  
+<a id="user-content-api-yas-http%2fapi" name="user-content-api-yas-http%2fapi"></a>
+## yas-http/Api
+`Api`  
 Send a request via http with custom method  
 
 ```yaml
@@ -58,8 +59,9 @@ Send a request via http with custom method
 
 <br/>
 
-## yas-http/Delete <a name="Api%2Fyas-http%2FDelete"></a>  
-`(Api)`  
+<a id="user-content-api-yas-http%2fdelete" name="user-content-api-yas-http%2fdelete"></a>
+## yas-http/Delete
+`Api`  
 Send a DELETE request via http  
 
 ```yaml
@@ -83,8 +85,9 @@ Send a DELETE request via http
 
 <br/>
 
-## yas-http/Get <a name="Api%2Fyas-http%2FGet"></a>  
-`(Api)`  
+<a id="user-content-api-yas-http%2fget" name="user-content-api-yas-http%2fget"></a>
+## yas-http/Get
+`Api`  
 Send a GET request via http  
 
 ```yaml
@@ -109,8 +112,9 @@ Send a GET request via http
 
 <br/>
 
-## yas-http/Patch <a name="Api%2Fyas-http%2FPatch"></a>  
-`(Api)`  
+<a id="user-content-api-yas-http%2fpatch" name="user-content-api-yas-http%2fpatch"></a>
+## yas-http/Patch
+`Api`  
 Send a Patch request via http  
 
 ```yaml
@@ -145,8 +149,9 @@ Send a Patch request via http
 
 <br/>
 
-## yas-http/Post <a name="Api%2Fyas-http%2FPost"></a>  
-`(Api)`  
+<a id="user-content-api-yas-http%2fpost" name="user-content-api-yas-http%2fpost"></a>
+## yas-http/Post
+`Api`  
 Send a Post request via http  
 
 ```yaml
@@ -181,8 +186,9 @@ Send a Post request via http
 
 <br/>
 
-## yas-http/Put <a name="Api%2Fyas-http%2FPut"></a>  
-`(Api)`  
+<a id="user-content-api-yas-http%2fput" name="user-content-api-yas-http%2fput"></a>
+## yas-http/Put
+`Api`  
 Send a Put request via http  
 
 ```yaml
@@ -217,8 +223,9 @@ Send a Put request via http
 
 <br/>
 
-## yas-http/Head <a name="Api%2Fyas-http%2FHead"></a>  
-`(Api)`  
+<a id="user-content-api-yas-http%2fhead" name="user-content-api-yas-http%2fhead"></a>
+## yas-http/Head
+`Api`  
 Send a Head request via http  
 
 ```yaml
@@ -242,8 +249,9 @@ Send a Head request via http
 
 <br/>
 
-## yas-http/Server <a name="Api%2Fyas-http%2FServer"></a>  
-`(Api)`  
+<a id="user-content-api-yas-http%2fserver" name="user-content-api-yas-http%2fserver"></a>
+## yas-http/Server
+`Api`  
 Mock API server
 - Server static file
 - Support upload file then save to server
@@ -339,8 +347,9 @@ Mock API server
 
 <br/>
 
-## yas-http/Doc/MD <a name="Doc%2C%20Api%2Fyas-http%2FDoc%2FMD"></a>  
-`(Doc, Api)`  
+<a id="user-content-doc%2c%20api-yas-http%2fdoc%2fmd" name="user-content-doc%2c%20api-yas-http%2fdoc%2fmd"></a>
+## yas-http/Doc/MD
+`Doc, Api`  
 Document api to markdown format  
 
 ```yaml
@@ -349,12 +358,14 @@ Document api to markdown format
     description: Demo CRUD API to generate to markdown document
     signature: "[Doan Thuan Thanh](mailto:doanthuanthanh88@gmail.com)"
     outFile: ./api_document_details.md
+    prefixHashLink:                        # Default is `user-content-` for github
 ```
 
 <br/>
 
-## yas-http/Summary <a name="Api%2Fyas-http%2FSummary"></a>  
-`(Api)`  
+<a id="user-content-api-yas-http%2fsummary" name="user-content-api-yas-http%2fsummary"></a>
+## yas-http/Summary
+`Api`  
 Summary after all of apis in scene executed done. (It's should be the last step)  
 
 ```yaml

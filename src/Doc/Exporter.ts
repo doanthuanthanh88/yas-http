@@ -28,6 +28,10 @@ export class Exporter implements IExporter<Api> {
   constructor(private writer: IFileAdapter, public md: MD) {
   }
 
+  getHashLink(...txts: string[]) {
+    return escape(this.md.prefixHashLink + txts.join('-')).toLowerCase()
+  }
+
   async export(apis: Api[]) {
     const mdMenu = [`# ${this.md.title || Scenario.Instance.title}`, `${this.md.description || Scenario.Instance.description || ''}`];
     const mdDetails = [] as string[];
@@ -51,12 +55,12 @@ export class Exporter implements IExporter<Api> {
     Object.keys(tags).sort().forEach(tagName => {
       mdMenu.push(`| |${tagName.trim()} (${tags[tagName].length}) | |`)
       tags[tagName].forEach((api, i) => {
-        mdMenu.push(`|**${i + 1}**|[${api.title}](#${escape(api.title)})| \`${api.method}\` ${api.url}|  `)
+        mdMenu.push(`|**${i + 1}**|[${api.title}](#${this.getHashLink(api.title)})| \`${api.method}\` ${api.url}|  `)
       })
     })
     apis.forEach((api) => {
       const details = []
-      details.push('', '---', '', `## [${api.title}](#) <a name="${escape(api.title)}"></a>
+      details.push('', '---', '', `<a id="${this.getHashLink(api.title)}" name="${this.getHashLink(api.title)}"></a>`, `## [${api.title}](#)
 ${api.description || ''}`, '')
 
       details.push(`

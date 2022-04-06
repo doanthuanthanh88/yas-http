@@ -21,6 +21,7 @@ import { Exporter } from "./Exporter"
     description: Demo CRUD API to generate to markdown document
     signature: "[Doan Thuan Thanh](mailto:doanthuanthanh88@gmail.com)"
     outFile: ./api_document_details.md
+    prefixHashLink:                        # Default is `user-content-` for github
  * @end
  */
 export default class ApiMD implements IElement {
@@ -33,6 +34,7 @@ export default class ApiMD implements IElement {
   title: string
   description: string
   signature: string
+  prefixHashLink: string
 
   outFile: string
 
@@ -51,9 +53,10 @@ export default class ApiMD implements IElement {
   }
 
   async prepare() {
-    await this.proxy.applyVars(this, 'title', 'description', 'signature', 'outFile')
+    await this.proxy.applyVars(this, 'title', 'description', 'signature', 'outFile', 'prefixHashLink')
     if (!this.outFile) throw new TraceError(`"outFile"  is required`, { outFile: this.outFile })
     this.outFile = this.proxy.resolvePath(this.outFile)
+    if (!this.prefixHashLink) this.prefixHashLink = 'user-content-'
   }
 
   async exec() {
