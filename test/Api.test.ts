@@ -154,9 +154,9 @@ steps:
                   body:
                     name: a
                     file1: !tag
-                      tags/binary: ${join(__dirname, 'assets/test1.txt')}
+                      file/stream: ${join(__dirname, 'assets/test1.txt')}
                     file2: !tag
-                      tags/binary: ${join(__dirname, 'assets/test2.txt')}
+                      file/stream: ${join(__dirname, 'assets/test2.txt')}
                   var: filesUpload
 
               - yas-http/Get:

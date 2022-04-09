@@ -10,6 +10,7 @@ import { ElementFactory } from "yaml-scene/src/elements/ElementFactory"
 import { ElementProxy } from "yaml-scene/src/elements/ElementProxy"
 import { IElement } from "yaml-scene/src/elements/IElement"
 import Validate from "yaml-scene/src/elements/Validate"
+import { LogLevel } from "yaml-scene/src/singleton/LoggerManager"
 import { Scenario } from 'yaml-scene/src/singleton/Scenario'
 import { LazyImport } from 'yaml-scene/src/utils/LazyImport'
 import { TimeUtils } from "yaml-scene/src/utils/TimeUtils"
@@ -46,7 +47,7 @@ Axios.defaults.httpsAgent = new Agents()
     body:                                                       # Request body which used in [POST, PUT, PATCH...] methods
       name: "thanh"
       file: !tag
-        tags/binary: ./my_file.txt                              # Upload a file to server (content-type: multipart/form-data)
+        file/stream: ./my_file.txt                              # Upload a file to server (content-type: multipart/form-data)
     
     var: "responseData"                                         # Set response data to "responseData" in global vars
     
@@ -65,6 +66,7 @@ export default class Api implements IElement {
   proxy: ElementProxy<this>
   $$: IElement
   $: this
+  logLevel?: LogLevel
 
   title: string
   description: string
@@ -115,15 +117,7 @@ export default class Api implements IElement {
     if (typeof props.doc === 'boolean') {
       props.doc = props.doc ? {} : undefined
     }
-    merge(this, { method: Method.GET }, {
-      ...props,
-      validate: props.validate?.map((v: any) => {
-        const _v = ElementFactory.CreateElement<Validate>('Validate')
-        _v.changeLogLevel(props.logLevel)
-        _v.init(v)
-        return _v
-      })
-    })
+    merge(this, { method: Method.GET }, props)
   }
 
   async prepare() {
@@ -147,9 +141,13 @@ export default class Api implements IElement {
       this.fullUrl = await this.proxy.getVar(this.url.replace(/(\:(\w+))/g, `$\{urlParams.$2\}`), { urlParams: this.params })
     }
     if (this.saveTo) this.saveTo = this.proxy.resolvePath(this.saveTo)
-    this.validate?.forEach(v => {
-      v.element.$ = this.$
-      v.element.$$ = this.$$
+    this.validate = this.validate?.map((v: any) => {
+      const _v = ElementFactory.CreateTheElement<Validate>(Validate)
+      _v.changeLogLevel(this.logLevel)
+      _v.init(v)
+      _v.element.$ = this.$
+      _v.element.$$ = this.$$
+      return _v
     })
   }
 

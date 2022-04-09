@@ -42,7 +42,7 @@ Send a request via http with custom method
     body:                                                       # Request body which used in [POST, PUT, PATCH...] methods
       name: "thanh"
       file: !tag
-        tags/binary: ./my_file.txt                              # Upload a file to server (content-type: multipart/form-data)
+        file/stream: ./my_file.txt                              # Upload a file to server (content-type: multipart/form-data)
 
     var: "responseData"                                         # Set response data to "responseData" in global vars
 
@@ -133,7 +133,7 @@ Send a Patch request via http
     body:                                                       # Request body which used in [POST, PUT, PATCH...] methods
       name: "thanh"
       file: !tag
-        tags/binary: ./my_file.txt                              # Upload a file to server (content-type: multipart/form-data)
+        file/stream: ./my_file.txt                              # Upload a file to server (content-type: multipart/form-data)
 
     var: "responseData"                                         # Set response data to "responseData" in global vars
 
@@ -170,7 +170,7 @@ Send a Post request via http
     body:                                                       # Request body which used in [POST, PUT, PATCH...] methods
       name: "thanh"
       file: !tag
-        tags/binary: ./my_file.txt                              # Upload a file to server (content-type: multipart/form-data)
+        file/stream: ./my_file.txt                              # Upload a file to server (content-type: multipart/form-data)
 
     var: "responseData"                                         # Set response data to "responseData" in global vars
 
@@ -207,7 +207,7 @@ Send a Put request via http
     body:                                                       # Request body which used in [POST, PUT, PATCH...] methods
       name: "thanh"
       file: !tag
-        tags/binary: ./my_file.txt                              # Upload a file to server (content-type: multipart/form-data)
+        file/stream: ./my_file.txt                              # Upload a file to server (content-type: multipart/form-data)
 
     var: "responseData"                                         # Set response data to "responseData" in global vars
 

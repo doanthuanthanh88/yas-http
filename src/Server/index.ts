@@ -10,6 +10,7 @@ import merge from "lodash.merge";
 import { ElementFactory } from 'yaml-scene/src/elements/ElementFactory';
 import { ElementProxy } from 'yaml-scene/src/elements/ElementProxy';
 import { IElement } from 'yaml-scene/src/elements/IElement';
+import Pause from 'yaml-scene/src/elements/Pause';
 import { Functional } from "yaml-scene/src/tags/model/Functional";
 import { FileUtils } from 'yaml-scene/src/utils/FileUtils';
 import { LazyImport } from 'yaml-scene/src/utils/LazyImport';
@@ -164,6 +165,14 @@ export default class Server implements IElement {
   private _router: Router;
   private _server?: http.Server | https.Server;
 
+  private get httpObject() {
+    return !this.https ? http : https;
+  }
+
+  private get serverOption() {
+    return this.https || {}
+  }
+
   constructor() {
     this._app = new Koa();
     this._app.use(cors());
@@ -183,25 +192,16 @@ export default class Server implements IElement {
     if (!this.port) this.port = !this.https ? 8000 : 4430;
   }
 
-  private get httpObject() {
-    return !this.https ? http : https;
-  }
-
-  private get serverOption() {
-    return this.https || {}
-  }
-
   private start() {
     return new Promise((resolve, reject) => {
       this._app
         .use(this._router.routes())
         .use(this._router.allowedMethods());
-      this.proxy.logger.info(chalk.green('Http Server is listening at %s://%s:%d'), this.https ? 'https' : 'http', this.host, this.port);
       this._server = this.httpObject.createServer(this.serverOption, this._app.callback());
       this._server.listen(this.port, this.host, async () => {
-        const pause = ElementFactory.CreateElement('Pause')
+        const pause = ElementFactory.CreateTheElement<Pause>(Pause)
         pause.init({
-          title: `Enter to stop the Http Server "${this.title || ''}" !`,
+          title: `Stop Http server at "${this.https ? 'https' : 'http'}://${this.host}:${this.port}"`,
           time: this.timeout
         })
         await pause.prepare()

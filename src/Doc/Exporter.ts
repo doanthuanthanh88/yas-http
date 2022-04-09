@@ -33,7 +33,7 @@ export class Exporter implements IExporter<Api> {
   }
 
   async export(apis: Api[]) {
-    const mdMenu = [`# ${this.md.title || Scenario.Instance.title}`, `${this.md.description || Scenario.Instance.description || ''}`];
+    const mdMenu = [`# ${this.md.title || Scenario.Instance.element.title}`, `${this.md.description || Scenario.Instance.element.description || ''}`];
     const mdDetails = [] as string[];
 
     if (this.md.signature) {

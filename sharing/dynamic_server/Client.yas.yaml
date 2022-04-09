@@ -1,6 +1,8 @@
 vars:
   server: "0.0.0.0"
   port: 3000
+extensions:
+  yas-http: ../../dist
 steps:
   - Templates:
       - yas-http/Api:

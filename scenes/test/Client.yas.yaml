@@ -77,9 +77,9 @@ steps:
       body:
         name: a
         file1: !tag
-          tags/binary: ./ApiMD.md
+          file/stream: ./ApiMD.md
         file2: !tag
-          tags/binary: ./ApiMD.md
+          file/stream: ./ApiMD.md
       var: filesUpload
 
   - yas-http/Get:
