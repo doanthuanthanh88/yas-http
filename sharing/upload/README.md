@@ -9,7 +9,7 @@ Upload file to [tmpfiles](https://tmpfiles.org) server
 
 Run in local `yaml-scene`
 ```sh
-yas -f https://raw.githubusercontent.com/doanthuanthanh88/yas-http/main/sharing/upload/tmpfiles example
+yas -f https://raw.githubusercontent.com/doanthuanthanh88/yas-http/main/sharing/upload/pick_file_to_upload.yas.yaml
 ```
 
 Run via docker
@@ -19,6 +19,5 @@ docker run --rm -it \
   -v $PWD:/Uploads \
   doanthuanthanh88/yaml-scene \
   -f \
-  https://raw.githubusercontent.com/doanthuanthanh88/yas-http/main/sharing/upload/tmpfiles \
-  example
+  https://raw.githubusercontent.com/doanthuanthanh88/yas-http/main/sharing/upload/pick_file_to_upload.yas.yaml
 ```
