@@ -1,8 +1,8 @@
 title: Upload to tmpfiles
 install:
-  global: true
-  dependencies:
-    - yas-http
+  global:
+    dependencies:
+      - yas-http
 steps:
   - Fragment:
       title: Pick a file to upload
