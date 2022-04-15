@@ -291,7 +291,7 @@ export default class Server implements IElement {
           } else if (r.handler) {
             // Manual handler response data
             if (typeof r.handler !== 'function') {
-              r.handler = Functional.GetFuntion(r.handler)
+              r.handler = Functional.GetFunction(r.handler)
               handler = async (ctx: Context, next: Function) => {
                 const rs = await this.proxy.eval(r.handler.toString(), { params: ctx.params, headers: ctx.headers, query: ctx.request.query, body: ctx.request.body, request: ctx.request, ctx: ctx });
                 if (ctx.body === undefined) ctx.body = rs
