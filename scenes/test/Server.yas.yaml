@@ -18,14 +18,16 @@ steps:
         - method: GET
           path: /posts/:id
           handler: !function |
-            headers.server = 'nginx'
-            ctx.status = 200
-            ctx.statusMessage = 'OK'
+            () {
+              this.headers.server = 'nginx'
+              this.ctx.status = 200
+              this.ctx.statusMessage = 'OK'
 
-            return {
-              "id": 1, 
-              "title": "title updated", 
-              "author": "typicode" 
+              return {
+                "id": 1, 
+                "title": "title updated", 
+                "author": "typicode" 
+              }
             }
         - method: POST
           path: /posts

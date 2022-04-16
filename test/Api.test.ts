@@ -10,6 +10,8 @@ describe('Api CRUD, serve', () => {
 extensions:
   yas-http: ${join(__dirname, '../src')}
 steps:
+  - Vars:
+      server: nginx
   - Templates:
     - yas-http/Api:
         ->: base
@@ -39,14 +41,16 @@ steps:
               - method: GET
                 path: /posts/:id
                 handler: !function |
-                  headers.server = 'nginx'
-                  ctx.status = 200
-                  ctx.statusMessage = 'OK'
-
-                  return {
-                    "id": 1, 
-                    "title": "title updated", 
-                    "author": "typicode" 
+                  ({ server }) {
+                    this.ctx.status = 200
+                    this.ctx.statusMessage = 'OK'
+                    
+                    return {
+                      "id": 1, 
+                      "server": server,
+                      "title": "title updated", 
+                      "author": "typicode" 
+                    }
                   }
               - method: POST
                 path: /posts
@@ -184,6 +188,7 @@ steps:
   })
   test('Get a post details', async () => {
     expect(VariableManager.Instance.vars.details.title).toBe('title updated')
+    expect(VariableManager.Instance.vars.details.server).toBe('nginx')
   })
   test('Delete a post', async () => {
     expect(VariableManager.Instance.vars.status).toBe(204)

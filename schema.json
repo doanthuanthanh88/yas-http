@@ -423,7 +423,7 @@
                         "description": "Write code to handle request, response",
                         "$ref": "#/definitions/functional",
                         "examples": [
-                          "!function | \nconsole.log('')"
+                          "!function | \n({}){\n  console.log('')\n}"
                         ]
                       }
                     }

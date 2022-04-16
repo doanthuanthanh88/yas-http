@@ -1,6 +1,5 @@
 import chalk from 'chalk'
 import { readFileSync, unlinkSync, writeFileSync } from 'fs'
-import { Context } from 'koa'
 import { EventEmitter } from 'stream'
 import { Logger } from 'yaml-scene/src/singleton/LoggerManager'
 import { TraceError } from 'yaml-scene/src/utils/error/TraceError'
@@ -113,58 +112,59 @@ export class CRUD {
   }
 
   get routers() {
+    const _this = this
     return [{
       method: 'GET',
       path: `${this.requestPath}/:id`,
-      handler: ({ ctx, params }: Context) => {
-        const key = Object.keys(params).filter((key) => key !== 'id').map(key => params[key]).join('/')
-        const rs = this.get(key, 'id', params.id)
-        ctx.status = rs ? 200 : 204
+      handler() {
+        const key = Object.keys(this.params).filter((key) => key !== 'id').map(key => this.params[key]).join('/')
+        const rs = _this.get(key, 'id', this.params.id)
+        this.ctx.status = rs ? 200 : 204
         return rs
       }
     }, {
       method: 'GET',
       path: `${this.requestPath}`,
-      handler: ({ ctx, query, params }: Context) => {
-        const key = Object.keys(params).map(key => params[key]).join('/')
-        const rs = this.find(key, query)
-        ctx.status = rs ? 200 : 204
+      handler() {
+        const key = Object.keys(this.params).map(key => this.params[key]).join('/')
+        const rs = _this.find(key, this.query)
+        this.ctx.status = rs ? 200 : 204
         return rs
       }
     }, {
       method: 'POST',
       path: `${this.requestPath}`,
-      handler: ({ ctx, body, params }: Context) => {
-        const key = Object.keys(params).map(key => params[key]).join('/')
-        const rs = this.create(key, body)
-        ctx.status = rs ? 200 : 204
+      handler() {
+        const key = Object.keys(this.params).map(key => this.params[key]).join('/')
+        const rs = _this.create(key, this.body)
+        this.ctx.status = rs ? 200 : 204
         return rs
       }
     }, {
       method: 'PUT',
       path: `${this.requestPath}/:id`,
-      handler: ({ ctx, params, body }: Context) => {
-        const key = Object.keys(params).filter((key) => key !== 'id').map(key => params[key]).join('/')
-        const rs = this.update(key, 'id', params.id, body)
-        ctx.status = rs ? 200 : 204
+      handler() {
+        const key = Object.keys(this.params).filter((key) => key !== 'id').map(key => this.params[key]).join('/')
+        const rs = _this.update(key, 'id', this.params.id, this.body)
+        this.ctx.status = rs ? 200 : 204
         return rs
       }
     }, {
       method: 'PATCH',
       path: `${this.requestPath}/:id`,
-      handler: ({ ctx, params, body }: Context) => {
-        const key = Object.keys(params).filter((key) => key !== 'id').map(key => params[key]).join('/')
-        const rs = this.patch(key, 'id', params.id, body)
-        ctx.status = rs ? 200 : 204
+      handler() {
+        const key = Object.keys(this.params).filter((key) => key !== 'id').map(key => this.params[key]).join('/')
+        const rs = _this.patch(key, 'id', this.params.id, this.body)
+        this.ctx.status = rs ? 200 : 204
         return rs
       }
     }, {
       method: 'DELETE',
       path: `${this.requestPath}/:id`,
-      handler: ({ ctx, params }: Context) => {
-        const key = Object.keys(params).filter((key) => key !== 'id').map(key => params[key]).join('/')
-        const rs = this.remove(key, 'id', params.id)
-        ctx.status = rs ? 200 : 204
+      handler() {
+        const key = Object.keys(this.params).filter((key) => key !== 'id').map(key => this.params[key]).join('/')
+        const rs = _this.remove(key, 'id', this.params.id)
+        this.ctx.status = rs ? 200 : 204
         return rs
       }
     }]

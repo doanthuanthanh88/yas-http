@@ -190,25 +190,23 @@ Create mock API Server without code
     routers:                                    # Defined routes
       - method: GET                             # Request method (GET, POST, PUT, PATCH, DELETE, HEAD) (Default: GET)
         path: /posts/:id                        # Request path
-        handler: !function |                              # Handle code which handle request and response data
-          /** Some vars can used in code
-           * $: this.proxy, 
-           * params: Request params
-           * headers: Request headers
-           * query: Request query string
-           * body: Request body
-           * request: Request
-           * ctx: Context (koajs)
-           */
+        handler: !function |                    # Handle code which handle request and response data
+          (globalVars) {                                      
+            // this.params: Request params
+            // this.headers: Request headers
+            // this.query: Request query string
+            // this.body: Request body
+            // this.request: Request
+            // this.ctx: Context (koajs)
 
-          const merge = require('lodash.merge')
-          
-          return merge({
-            params: params.id,
-            name: query.name
-          }, {
-            id: 1
-          })
+            const merge = require('lodash.merge')   
+            return merge({                          
+              params: this.params.id,                    
+              name: this.query.name                      
+            }, {                                    
+              id: 1
+            })
+          }                
 ```
 
 ## Document to markdown

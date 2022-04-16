@@ -95,21 +95,22 @@ import { CRUD } from './CRUD';
                                                 # - Default method is GET
         path: /posts/:id                        # Request path
         handler: !function |                    # Handle code which handle request and response data
-          // _: this, 
-          // __: this.proxy, 
-          // params: Request params
-          // headers: Request headers
-          // query: Request query string
-          // body: Request body
-          // request: Request
-          // ctx: Context (koajs)
+          () {                                      
+            // this.params: Request params
+            // this.headers: Request headers
+            // this.query: Request query string
+            // this.body: Request body
+            // this.request: Request
+            // this.ctx: Context (koajs)
 
-          const merge = require('lodash.merge')
-          return merge({
-            name: query.name
-          }, {
-            id: 1
-          })
+            const merge = require('lodash.merge')   
+            return merge({                          
+              params: this.params.id,                    
+              name: this.query.name                      
+            }, {                                    
+              id: 1
+            })
+          }
           
  * @end
  */
@@ -289,22 +290,17 @@ export default class Server implements IElement {
               return next()
             }
           } else if (r.handler) {
-            // Manual handler response data
+            let _handler: Function
             if (typeof r.handler !== 'function') {
-              r.handler = Functional.GetFunction(r.handler)
-              handler = async (ctx: Context, next: Function) => {
-                const rs = await this.proxy.eval(r.handler.toString(), { params: ctx.params, headers: ctx.headers, query: ctx.request.query, body: ctx.request.body, request: ctx.request, ctx: ctx });
-                if (ctx.body === undefined) ctx.body = rs
-                if (ctx.body === undefined) ctx.body = null
-                return next()
-              }
+              _handler = Functional.GetFunction(r.handler).getFunctionFromBody()
             } else {
-              handler = async (ctx: Context, next: Function) => {
-                const rs = await r.handler({ params: ctx.params, headers: ctx.headers, query: ctx.request.query, body: ctx.request.body, request: ctx.request, ctx: ctx })
-                if (ctx.body === undefined) ctx.body = rs
-                if (ctx.body === undefined) ctx.body = null
-                return next()
-              }
+              _handler = r.handler
+            }
+            handler = async (ctx: Context, next: Function) => {
+              const rs = await this.proxy.call(_handler, undefined, { params: ctx.params, headers: ctx.headers, query: ctx.request.query, body: ctx.request.body, request: ctx.request, ctx: ctx })
+              if (ctx.body === undefined) ctx.body = rs
+              if (ctx.body === undefined) ctx.body = null
+              return next()
             }
           }
           this.proxy.logger.info(chalk.green(`✓ ${r.method} ${r.path}`));
