@@ -94,7 +94,7 @@ import { CRUD } from './CRUD';
                                                 # - Default method is GET
         path: /posts/:id                        # Request path
         handler: !function |                    # Handle code which handle request and response data
-          () {                                      
+          () {                                  # Load global variables into function. [More](https://github.com/doanthuanthanh88/yaml-scene/wiki#user-content-!tags-!function) 
             // this.params: Request params
             // this.headers: Request headers
             // this.query: Request query string
