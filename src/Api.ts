@@ -22,8 +22,7 @@ Axios.defaults.withCredentials = true
 Axios.defaults.httpAgent = new Agent()
 Axios.defaults.httpsAgent = new Agents()
 
-/**
- * @guide
+/*****
  * @name yas-http/Api
  * @description Send a request via http with custom method
  * @group Api
@@ -60,7 +59,6 @@ Axios.defaults.httpsAgent = new Agents()
     validate:                                                   # Validate response after request done. Reference to [Validate](https://github.com/doanthuanthanh88/yaml-scene/wiki#Validate)
       - title: Response status is valid
         chai: ${expect($.response.status).to.equal(200)}        # `$.response` is response data after send a request. ($.params, $.query...)
- * @end
  */
 export default class Api implements IElement {
   proxy: ElementProxy<this>

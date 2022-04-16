@@ -1,6 +1,6 @@
 {
   "name": "yas-http",
-  "version": "2.0.0-alpha.1",
+  "version": "1.1.8",
   "description": "Support to send http(s) requests, API document and Http(s) mock server",
   "keywords": [
     "http",
@@ -13,8 +13,8 @@
   "scripts": {
     "install:dist": "yarn install --production --modules-folder ./dist/node_modules",
     "dev": "ts-node-dev --clear --rs --project tsconfig.json --ignore-watch [.*] --respawn --transpile-only -r tsconfig-paths/register --inspect-brk -- src/index.ts",
-    "test": "jest",
-    "test:debug": "node --inspect-brk node_modules/.bin/jest",
+    "test": "node --expose-gc node_modules/.bin/jest",
+    "test:debug": "node --expose-gc --inspect-brk node_modules/.bin/jest",
     "doc": "npx yaml-scene scenes/guide.yas.yaml",
     "prebuild": "yarn clean",
     "lint": "tsc --project tsconfig.lint.json",
@@ -44,7 +44,7 @@
     "lodash.omit": "^4.5.0"
   },
   "peerDependencies": {
-    "yaml-scene": "^2.0.0"
+    "yaml-scene": "^1"
   },
   "devDependencies": {
     "@types/cli-progress": "^3.9.2",
@@ -66,7 +66,7 @@
     "tsconfig-paths": "^3.14.1",
     "typescript": "^4.3.5",
     "weak-napi": "^2.0.2",
-    "yaml-scene": "^2.0.0"
+    "yaml-scene": "^1"
   },
   "author": {
     "name": "Đoàn Thuận Thành",

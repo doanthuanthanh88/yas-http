@@ -9,8 +9,7 @@ import { TraceError } from "yaml-scene/src/utils/error/TraceError"
 import { TimeUtils } from "yaml-scene/src/utils/TimeUtils"
 import { Exporter } from "./Exporter"
 
-/**
- * @guide
+/*****
  * @name yas-http/Doc/MD
  * @description Document api to markdown format
  * @order 6
@@ -22,7 +21,6 @@ import { Exporter } from "./Exporter"
     signature: "[Doan Thuan Thanh](mailto:doanthuanthanh88@gmail.com)"
     outFile: ./api_document_details.md
     prefixHashLink:                        # Default is `user-content-` for github
- * @end
  */
 export default class ApiMD implements IElement {
   proxy: ElementProxy<this>

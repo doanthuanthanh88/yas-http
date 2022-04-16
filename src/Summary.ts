@@ -5,8 +5,7 @@ import { IElement } from "yaml-scene/src/elements/IElement"
 import { Scenario } from "yaml-scene/src/singleton/Scenario"
 import { TimeUtils } from "yaml-scene/src/utils/TimeUtils"
 
-/**
- * @guide
+/*****
  * @name yas-http/Summary
  * @description Summary after all of apis in scene executed done. (It's should be the last step)
  * @group Api
@@ -14,7 +13,6 @@ import { TimeUtils } from "yaml-scene/src/utils/TimeUtils"
  * @example
 - yas-http/Summary:
     title: Testing result
- * @end
  */
 export default class Summary implements IElement {
   proxy: ElementProxy<this>

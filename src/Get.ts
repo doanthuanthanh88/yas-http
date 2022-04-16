@@ -1,8 +1,7 @@
 import Api from "./Api";
 import { Method } from "./Method";
 
-/**
- * @guide
+/*****
  * @name yas-http/Get
  * @description Send a GET request via http
  * @group Api
@@ -25,7 +24,6 @@ import { Method } from "./Method";
     validate:                                                   # Validate response after request done. Reference to [Validate](https://github.com/doanthuanthanh88/yaml-scene/wiki#Validate)
       - title: Response status is valid
         chai: ${expect($.response.status).to.equal(200)}
- * @end 
  */
 export default class Get extends Api {
   init(props: any) {

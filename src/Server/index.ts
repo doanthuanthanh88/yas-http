@@ -17,8 +17,7 @@ import { LazyImport } from 'yaml-scene/src/utils/LazyImport';
 import { TimeUtils } from "yaml-scene/src/utils/TimeUtils";
 import { CRUD } from './CRUD';
 
-/**
- * @guide
+/*****
  * @name yas-http/Server
  * @description Mock API server  
 - Server static file
@@ -112,7 +111,6 @@ import { CRUD } from './CRUD';
             })
           }
           
- * @end
  */
 export default class Server implements IElement {
   proxy: ElementProxy<this>
