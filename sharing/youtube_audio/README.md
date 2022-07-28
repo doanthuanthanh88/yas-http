@@ -15,7 +15,7 @@ Run in local `yaml-scene`
 Run via docker
 ```sh
   docker run --rm -it \
-  -v $PWD:/Downloads \
+  -v $PWD:/yaml-scene \
   doanthuanthanh88/yaml-scene \
   -f \
   https://raw.githubusercontent.com/doanthuanthanh88/yas-http/main/sharing/youtube_audio/download_youtube \
