@@ -1,7 +1,7 @@
 # Post service
 Demo CRUD API to generate to markdown document
 > Developed by [Doan Thuan Thanh](mailto:doanthuanthanh88@gmail.com)  
-> Updated at 4/20/2022, 8:17:14 AM  
+> Updated at 9/28/2022, 11:27:24 AM  
 
 | | Title (6) | URL |  
 |---|---|---|  
@@ -38,7 +38,7 @@ Demo CRUD API to generate to markdown document
 <summary><b>cURL</b></summary>
 
 ```sh
-curl "/posts" -X POST -H "content-type: application/json" -d "{\"id\":2,\"title\":\"title 2\",\"author\":\"typicode 2\"}"
+curl "http://localhost:3000/posts" -X POST -H "content-type: application/json" -d "{\"id\":2,\"title\":\"title 2\",\"author\":\"typicode 2\"}"
 ```
 
 </details>
@@ -122,7 +122,7 @@ curl "/posts" -X POST -H "content-type: application/json" -d "{\"id\":2,\"title\
 <summary><b>cURL</b></summary>
 
 ```sh
-curl "/posts/2" -X DELETE -H "content-type: application/json"
+curl "http://localhost:3000/posts/2" -X DELETE -H "content-type: application/json"
 ```
 
 </details>
@@ -193,7 +193,7 @@ curl "/posts/2" -X DELETE -H "content-type: application/json"
 <summary><b>cURL</b></summary>
 
 ```sh
-curl "/posts/2" -X GET -H "content-type: application/json"
+curl "http://localhost:3000/posts/2" -X GET -H "content-type: application/json"
 ```
 
 </details>
@@ -271,7 +271,7 @@ curl "/posts/2" -X GET -H "content-type: application/json"
 <summary><b>cURL</b></summary>
 
 ```sh
-curl "/posts" -X GET -H "content-type: application/json"
+curl "http://localhost:3000/posts" -X GET -H "content-type: application/json"
 ```
 
 </details>
@@ -299,7 +299,7 @@ curl "/posts" -X GET -H "content-type: application/json"
     ],
     "creator": {
       "name": "thanh",
-      "created_time": 1650442627763
+      "created_time": 1664339237740
     },
     "tags": [
       {
@@ -352,7 +352,7 @@ curl "/posts" -X GET -H "content-type: application/json"
 <summary><b>cURL</b></summary>
 
 ```sh
-curl "/posts/2" -X GET -H "content-type: application/json"
+curl "http://localhost:3000/posts/2" -X GET -H "content-type: application/json"
 ```
 
 </details>
@@ -430,7 +430,7 @@ curl "/posts/2" -X GET -H "content-type: application/json"
 <summary><b>cURL</b></summary>
 
 ```sh
-curl "/posts/2" -X PUT -H "content-type: application/json" -d "{\"id\":2,\"title\":\"title 2 updated\",\"author\":\"typicode 2 updated\"}"
+curl "http://localhost:3000/posts/2" -X PUT -H "content-type: application/json" -d "{\"id\":2,\"title\":\"title 2 updated\",\"author\":\"typicode 2 updated\"}"
 ```
 
 </details>

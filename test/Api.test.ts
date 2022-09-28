@@ -5,6 +5,7 @@ import { VariableManager } from "yaml-scene/src/singleton/VariableManager"
 
 describe('Api CRUD, serve', () => {
   const port = 3003
+  const host = '0.0.0.0'
   beforeAll(async () => {
     await Simulator.Run(`
 extensions:
@@ -15,7 +16,7 @@ steps:
   - Templates:
     - yas-http/Api:
         ->: base
-        baseURL: http://localhost:${port}
+        baseURL: http://${host}:${port}
 
   - Group:
       steps:
@@ -24,6 +25,7 @@ steps:
             timeout: 5s
             title: Mock http request
             port: ${port}
+            host: ${host}
             routers:
               - serveIn: ${join(__dirname, 'assets')}
               - path: /upload

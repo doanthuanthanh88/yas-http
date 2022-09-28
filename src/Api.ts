@@ -132,12 +132,12 @@ export default class Api implements IElement {
     if (!this.query) this.query = {}
     if (!this.headers) this.headers = {}
     if (!this.headers['content-type']) this.headers['content-type'] = 'application/json'
-    if (!this.baseURL) {
-      const _url = new URL(this.url)
-      this.fullUrl = await this.proxy.getVar(_url.origin + _url.pathname.replace(/(\:(\w+))/g, `$\{urlParams.$2\}`), { urlParams: this.params })
-    } else {
-      this.fullUrl = await this.proxy.getVar(this.url.replace(/(\:(\w+))/g, `$\{urlParams.$2\}`), { urlParams: this.params })
-    }
+    this.fullUrl = `${this.baseURL}${this.url}`
+    const _url = new URL(this.fullUrl)
+    const schema = _url.origin
+    const url = this.fullUrl.substring(schema.length)
+    const urlPath = url.split('\\:').map(seq => seq.replace(/(\:(\w+))/g, `$\{urlParams.$2\}`)).join(':')
+    this.fullUrl = schema + (await this.proxy.getVar(urlPath, { urlParams: this.params }))
     if (this.saveTo) this.saveTo = this.proxy.resolvePath(this.saveTo)
     this.validate = this.validate?.map((v: any) => {
       const _v = ElementFactory.CreateTheElement<Validate>(Validate)

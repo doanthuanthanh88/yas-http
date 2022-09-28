@@ -2,3 +2,4 @@ node_modules
 dist
 *.log
 *.yasc.yaml
+test/assets/upload/*.txt
